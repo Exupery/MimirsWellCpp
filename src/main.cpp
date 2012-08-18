@@ -22,7 +22,7 @@ int main(int argc, char * argv[]) {
 	return 0;
 }
 
-int curlWrite(char *data, size_t size, size_t len, std::string * buffer) {
+int curlWrite(char * data, size_t size, size_t len, std::string * buffer) {
 	int result = 0;
 	if (buffer != NULL) {
 		buffer->append(data, size * len);
@@ -32,10 +32,10 @@ int curlWrite(char *data, size_t size, size_t len, std::string * buffer) {
 }
 
 void apitest() {
-	std::cout << "searching twitter for 'frost'" << std::endl;
+	std::cout << "searching twitter for '$QQQ'" << std::endl;
 	CURL * curl;
 	std::string buffer;
-	std::string testurl = "http://search.twitter.com/search.json?q=frost";
+	std::string testurl = "http://search.twitter.com/search.json?q=$QQQ";
 	const char * url = testurl.c_str();
 	curl = curl_easy_init();
 	if (curl) {
@@ -46,4 +46,6 @@ void apitest() {
 		curl_easy_perform(curl);
 		curl_easy_cleanup(curl);
 	}
+
+	std::cout << buffer << std::endl;
 }
