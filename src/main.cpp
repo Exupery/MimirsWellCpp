@@ -13,11 +13,14 @@
 #include <stdio.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include "twitter.h"
 
 void apitest();
 
 int main(int argc, char * argv[]) {
-	std::cout << "testing twitter api" << std::endl;
+	std::cout << "testing twitter class" << std::endl;
+	Twitter twitter;
+
 	apitest();
 	return 0;
 }
@@ -35,7 +38,8 @@ void apitest() {
 	std::cout << "searching twitter for '$QQQ'" << std::endl;
 	CURL * curl;
 	std::string buffer;
-	std::string testurl = "http://search.twitter.com/search.json?q=$QQQ";
+//	std::string testurl = "http://search.twitter.com/search.json?q=$QQQ";
+	std::string testurl = "http://127.0.0.1/test.json";
 	const char * url = testurl.c_str();
 	curl = curl_easy_init();
 	if (curl) {
@@ -47,5 +51,5 @@ void apitest() {
 		curl_easy_cleanup(curl);
 	}
 
-	std::cout << buffer << std::endl;
+//	std::cout << buffer << std::endl;
 }
