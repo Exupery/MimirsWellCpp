@@ -12,17 +12,21 @@
 #include "twitter.h"
 
 Twitter::Twitter() {
-	std::string url = buildSearchURL("QQQ");
-	std::string test = curlRead(url);
-	std::cout << test << std::endl;
+
 }
 
 Twitter::~Twitter() {
 
 }
 
+std::string Twitter::search(std::string symbol) {
+	std::string url = buildSearchURL(symbol);
+	std::string results = curlRead(url);
+	return results;
+}
+
 std::string Twitter::buildSearchURL(std::string symbol) {
-	std::string url = BASE_URL + std::string("?q=%24") + symbol;
+	std::string url = BASE_URL + std::string("&q=%24") + symbol;
 	return url;
 }
 

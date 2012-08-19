@@ -17,6 +17,8 @@
 int main(int argc, char * argv[]) {
 	std::cout << "testing twitter class" << std::endl;
 	Twitter twitter;
+	std::string test = twitter.search("QQQ");
+	std::cout << test << std::endl;
 
 	return 0;
 }
