@@ -5,6 +5,7 @@
  *      Author: frost
  */
 
+#include <jansson.h>
 #include "parser.h"
 
 Parser::Parser() {
