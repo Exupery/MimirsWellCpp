@@ -1,5 +1,5 @@
 /*
- * Twitter.cpp
+ * twitter.cpp
  *
  *  Created on: Aug 18, 2012
  *      Author: frost
@@ -9,14 +9,26 @@
 #include <string>
 #include "twitter.h"
 
-const std::string BASE_URL = "http://127.0.0.1/test.json";
-//const std::string BASE_URL = "http://search.twitter.com/search.json?q=$QQQ";
-
 Twitter::Twitter() {
-	std::cout << BASE_URL << std::endl;
+	std::string url = buildSearchURL("QQQ");
+	std::cout << url << std::endl;
 }
 
 Twitter::~Twitter() {
 
+}
+
+std::string Twitter::buildSearchURL(std::string symbol) {
+	std::string url = BASE_URL + std::string("?q=%24") + symbol;
+	return url;
+}
+
+int Twitter::curlWrite(char * data, size_t size, size_t len, std::string * buffer) {
+	int result = 0;
+	if (buffer != NULL) {
+		buffer->append(data, size * len);
+		result = size * len;
+	}
+	return result;
 }
 

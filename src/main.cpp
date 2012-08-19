@@ -21,17 +21,8 @@ int main(int argc, char * argv[]) {
 	std::cout << "testing twitter class" << std::endl;
 	Twitter twitter;
 
-	apitest();
+//	apitest();
 	return 0;
-}
-
-int curlWrite(char * data, size_t size, size_t len, std::string * buffer) {
-	int result = 0;
-	if (buffer != NULL) {
-		buffer->append(data, size * len);
-		result = size * len;
-	}
-	return result;
 }
 
 void apitest() {
@@ -44,7 +35,7 @@ void apitest() {
 	curl = curl_easy_init();
 	if (curl) {
 		curl_easy_setopt(curl, CURLOPT_URL, url);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrite);
+//		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrite);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
 
 		curl_easy_perform(curl);
