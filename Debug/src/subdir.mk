@@ -5,14 +5,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/main.cpp \
+../src/parser.cpp \
+../src/tweet.cpp \
 ../src/twitter.cpp 
 
 OBJS += \
 ./src/main.o \
+./src/parser.o \
+./src/tweet.o \
 ./src/twitter.o 
 
 CPP_DEPS += \
 ./src/main.d \
+./src/parser.d \
+./src/tweet.d \
 ./src/twitter.d 
 
 
