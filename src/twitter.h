@@ -15,7 +15,7 @@ class Twitter {
 private:
 	std::string buildSearchURL(std::string symbol);
 	std::string curlRead(std::string url);
-	int curlWrite(char * data, size_t size, size_t len, std::string * buffer);
+	static int curlWrite(char * data, size_t size, size_t len, std::string * buffer);
 public:
 	Twitter();
 	virtual ~Twitter();

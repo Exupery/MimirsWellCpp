@@ -7,11 +7,14 @@
 
 #include <iostream>
 #include <string>
+#include <curl/curl.h>
+#include <curl/easy.h>
 #include "twitter.h"
 
 Twitter::Twitter() {
 	std::string url = buildSearchURL("QQQ");
-	std::cout << url << std::endl;
+	std::string test = curlRead(url);
+	std::cout << test << std::endl;
 }
 
 Twitter::~Twitter() {
@@ -21,6 +24,23 @@ Twitter::~Twitter() {
 std::string Twitter::buildSearchURL(std::string symbol) {
 	std::string url = BASE_URL + std::string("?q=%24") + symbol;
 	return url;
+}
+
+std::string Twitter::curlRead(std::string searchURL) {
+	CURL * curl;
+	std::string buffer;
+	const char * url = searchURL.c_str();
+	curl = curl_easy_init();
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, url);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrite);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+
+		curl_easy_perform(curl);
+		curl_easy_cleanup(curl);
+	}
+
+	return buffer;
 }
 
 int Twitter::curlWrite(char * data, size_t size, size_t len, std::string * buffer) {
