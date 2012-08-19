@@ -11,6 +11,7 @@
 #define TWEET_H_
 
 class Tweet {
+friend bool operator<(const Tweet& a, const Tweet& b);
 private:
 	int userID;
 	long id;
@@ -24,7 +25,7 @@ public:
 	void setPostedAt(long postedAt);
 	void setText(std::string text);
 	int getUserID();
-	long getID();
+	long getID() const;
 	long getPostedAt();
 	std::string getText();
 };

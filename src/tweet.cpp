@@ -38,7 +38,7 @@ int Tweet::getUserID() {
 	return userID;
 }
 
-long Tweet::getID() {
+long Tweet::getID() const {
 	return id;
 }
 
@@ -48,5 +48,9 @@ long Tweet::getPostedAt() {
 
 std::string Tweet::getText() {
 	return text;
+}
+
+bool operator<(const Tweet& a, const Tweet& b) {
+	return (a.getID() < b.getID());
 }
 
