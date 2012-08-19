@@ -6,6 +6,9 @@
  */
 
 #include <string>
+#include <set>
+#include "tweet.h"
+
 #define BASE_URL "http://127.0.0.1/test.json?lang=en"
 //#define BASE_URL "http://search.twitter.com/search.json?lang=en"
 #ifndef TWITTER_H_
@@ -19,7 +22,7 @@ private:
 public:
 	Twitter();
 	virtual ~Twitter();
-	std::string search(std::string symbol);
+	std::set<Tweet> search(std::string symbol);
 };
 
 #endif /* TWITTER_H_ */

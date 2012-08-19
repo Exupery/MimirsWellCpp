@@ -5,7 +5,6 @@
  *      Author: frost
  */
 
-#include <set>
 #include "parser.h"
 
 Parser::Parser() {
@@ -14,5 +13,11 @@ Parser::Parser() {
 
 Parser::~Parser() {
 
+}
+
+std::set<Tweet> Parser::parseJSON(std::string json) {
+	std::set<Tweet> tweets;
+
+	return tweets;
 }
 

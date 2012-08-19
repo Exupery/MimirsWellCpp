@@ -12,13 +12,13 @@
 #include <string>
 #include <stdio.h>
 #include "twitter.h"
-
+#include "tweet.h"
 
 int main(int argc, char * argv[]) {
-	std::cout << "testing twitter class" << std::endl;
+	std::cout << "testing tweet class" << std::endl;
 	Twitter twitter;
-	std::string test = twitter.search("QQQ");
-	std::cout << test << std::endl;
+	std::set<Tweet> test = twitter.search("QQQ");
+//	std::cout << test << std::endl;
 
 	return 0;
 }

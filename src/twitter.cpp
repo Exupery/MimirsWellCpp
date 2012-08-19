@@ -6,10 +6,10 @@
  */
 
 #include <iostream>
-#include <string>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include "twitter.h"
+#include "parser.h"
 
 Twitter::Twitter() {
 
@@ -19,10 +19,12 @@ Twitter::~Twitter() {
 
 }
 
-std::string Twitter::search(std::string symbol) {
+std::set<Tweet> Twitter::search(std::string symbol) {
 	std::string url = buildSearchURL(symbol);
 	std::string results = curlRead(url);
-	return results;
+	Parser parser;
+	std::set<Tweet> tweets = parser.parseJSON(results);
+	return tweets;
 }
 
 std::string Twitter::buildSearchURL(std::string symbol) {
