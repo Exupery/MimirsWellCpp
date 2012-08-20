@@ -15,7 +15,7 @@
 #include "tweet.h"
 
 int main(int argc, char * argv[]) {
-	std::cout << "testing tweet class" << std::endl;
+	std::cout << "testing json parser class" << std::endl;
 	Twitter twitter;
 	std::set<Tweet> test = twitter.search("QQQ");
 	std::cout << test.size() << std::endl;
