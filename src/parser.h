@@ -11,6 +11,8 @@
 #define PARSER_H_
 
 class Parser {
+private:
+	long getUNIXTime(std::string timestamp);
 public:
 	Parser();
 	virtual ~Parser();

@@ -34,7 +34,7 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 
 					createdAt = json_object_get(data, "created_at");
 					if (json_is_string(createdAt)) {
-						t.setPostedAt(0L);
+						t.setPostedAt(getUNIXTime(json_string_value(createdAt)));
 					}
 
 					userID = json_object_get(data, "from_user_id");
@@ -55,10 +55,6 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 					tweets.insert(t);
 				}
 			}
-//			std::cout << t.getPostedAt() << std::endl;
-//			std::cout << t.getUserID() << std::endl;
-//			std::cout << t.getID() << std::endl;
-//			std::cout << t.getText() << std::endl;
 		} else {
 			std::cout << "JSON array expected!" << std::endl;
 		}
@@ -67,5 +63,10 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 	}
 
 	return tweets;
+}
+
+long Parser::getUNIXTime(std::string timestamp) {
+	//TODO: parse timestamp && convert to long
+	return 0L;
 }
 
