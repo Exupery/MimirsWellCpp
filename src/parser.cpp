@@ -53,7 +53,7 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 						t.setText(json_string_value(text));
 					}
 
-					if (t.getID() > 0) {
+					if (t.getID() > 0 && t.getPostedAt() > 0) {
 						tweets.insert(t);
 					}
 				}
@@ -69,7 +69,6 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 }
 
 long Parser::getUNIXTime(std::string timestamp) {
-	//TODO: parse timestamp && convert to long
 	long epoch;
 	struct tm tm;
 	char * buffer = (char *)timestamp.c_str();
@@ -78,7 +77,6 @@ long Parser::getUNIXTime(std::string timestamp) {
 		std::cout << epoch << std::endl;
 	} else {
 		epoch = 0;
-		std::cerr << "Error parsing timestamp" << std::endl;
 	}
 
 	return epoch;
