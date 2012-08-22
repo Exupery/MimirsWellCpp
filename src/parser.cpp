@@ -7,6 +7,7 @@
 
 #include <iostream> //DELME
 #include <jansson.h>
+#include <time.h>
 #include "parser.h"
 
 Parser::Parser() {
@@ -52,7 +53,9 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 						t.setText(json_string_value(text));
 					}
 
-					tweets.insert(t);
+					if (t.getID() > 0) {
+						tweets.insert(t);
+					}
 				}
 			}
 		} else {
@@ -67,6 +70,16 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 
 long Parser::getUNIXTime(std::string timestamp) {
 	//TODO: parse timestamp && convert to long
-	return 0L;
+	long time = 0;
+	struct tm tm;
+	time_t epoch; //Sat, 18 Aug 2012 20:14:17 +0000
+	if (strptime((char *)"Sat, 18 Aug 2012 20:14:17 +0000", "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
+		epoch = mktime(&tm);
+		std::cout << epoch << std::endl;
+	} else {
+		std::cerr << "Error parsing timestamp" << std::endl;
+	}
+
+	return time;
 }
 
