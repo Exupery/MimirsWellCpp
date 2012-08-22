@@ -70,16 +70,17 @@ std::set<Tweet> Parser::parseJSON(const std::string json) {
 
 long Parser::getUNIXTime(std::string timestamp) {
 	//TODO: parse timestamp && convert to long
-	long time = 0;
+	long epoch;
 	struct tm tm;
-	time_t epoch; //Sat, 18 Aug 2012 20:14:17 +0000
-	if (strptime((char *)"Sat, 18 Aug 2012 20:14:17 +0000", "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
+	char * buffer = (char *)timestamp.c_str();
+	if (strptime(buffer, "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
 		epoch = mktime(&tm);
 		std::cout << epoch << std::endl;
 	} else {
+		epoch = 0;
 		std::cerr << "Error parsing timestamp" << std::endl;
 	}
 
-	return time;
+	return epoch;
 }
 
