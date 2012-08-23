@@ -5,7 +5,9 @@
  *      Author: frost
  */
 
+#include <algorithm>
 #include <iostream> //DELME
+#include <string>
 #include <jansson.h>
 #include <time.h>
 #include "parser.h"
@@ -21,15 +23,20 @@ Parser::~Parser() {
 std::set<Tweet> Parser::parseJSON(const std::string json) {
 	std::set<Tweet> tweets;
 	json_error_t error;
-	json_t * root;
-	char * source = (char *)"[{\"created_at\":\"Sat, 18 Aug 2012 20:14:17 +0000\",\"from_user_id\":106725205,\"id\":236918965404848128,\"text\":\"testing...\"}]";
-//	char * source = (char *)json.c_str();
+	json_t * root, * results;
+	//remove newlines for jansson
+	std::string str = json;
+	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
+//	char * source = (char *)"{\"results\":[{\"created_at\":\"Sat, 18 Aug 2012 20:14:17 +0000\",\"from_user_id\":106725205,\"id\":236918965404848128,\"text\":\"testing...\"}]}";
+	char * source = (char *)str.c_str();
 	root = json_loads(source, 0, &error);
-	if (root) {
-		if (json_is_array(root)) {
-			for (size_t i=0; i < json_array_size(root); i++) {
+	if (root && json_is_object(root)) {
+		std::cout << "It's an object!" << std::endl; //DELME
+		results = json_object_get(root, "results");
+		if (results && json_is_array(results)) {
+			for (size_t i=0; i < json_array_size(results); i++) {
 				json_t * data, * createdAt, * userID, * id, * text;
-				data = json_array_get(root, i);
+				data = json_array_get(results, i);
 				if (json_is_object(data)) {
 					Tweet t;
 
@@ -74,7 +81,7 @@ long Parser::getUNIXTime(std::string timestamp) {
 	char * buffer = (char *)timestamp.c_str();
 	if (strptime(buffer, "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
 		epoch = mktime(&tm);
-		std::cout << epoch << std::endl;
+		std::cout << epoch << std::endl; //DELME
 	} else {
 		epoch = 0;
 	}
