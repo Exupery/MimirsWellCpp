@@ -19,20 +19,22 @@ Twitter::~Twitter() {
 
 }
 
-std::set<Tweet> Twitter::search(std::string symbol) {
+std::set<Tweet> Twitter::search(const std::string &symbol) {
 	std::string url = buildSearchURL(symbol);
 	std::string results = curlRead(url);
 	Parser parser;
+	std::string next = parser.parseNextPage(results);
+	std::cout << next << std::endl; //DELME
 	std::set<Tweet> tweets = parser.parseResults(results);
 	return tweets;
 }
-
-std::string Twitter::buildSearchURL(std::string symbol) {
+//TODO: handle multiple pages
+std::string Twitter::buildSearchURL(const std::string &symbol) {
 	std::string url = BASE_URL + std::string("&q=%24") + symbol;
 	return url;
 }
 
-std::string Twitter::curlRead(std::string searchURL) {
+std::string Twitter::curlRead(const std::string &searchURL) {
 	CURL * curl;
 	std::string buffer;
 	const char * url = searchURL.c_str();

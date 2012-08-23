@@ -16,13 +16,13 @@
 
 class Twitter {
 private:
-	std::string buildSearchURL(std::string symbol);
-	std::string curlRead(std::string url);
+	std::string buildSearchURL(const std::string &symbol);
+	std::string curlRead(const std::string &url);
 	static int curlWrite(char * data, size_t size, size_t len, std::string * buffer);
 public:
 	Twitter();
 	virtual ~Twitter();
-	std::set<Tweet> search(std::string symbol);
+	std::set<Tweet> search(const std::string &symbol);
 };
 
 #endif /* TWITTER_H_ */

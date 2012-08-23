@@ -20,11 +20,24 @@ Parser::~Parser() {
 
 }
 
-std::string parseNextPage(std::string json) {
-	return "";
+std::string Parser::parseNextPage(const std::string &json) {
+	json_error_t error;
+	json_t * root, * nextPage;
+	std::string str = json;
+	std::string next = "";
+	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
+	char * source = (char *)str.c_str();
+	root = json_loads(source, 0, &error);
+	if (root && json_is_object(root)) {
+		nextPage = json_object_get(root, "next_page");
+		if (json_is_string(nextPage)) {
+			next = json_string_value(nextPage);
+		}
+	}
+	return next;
 }
 
-std::set<Tweet> Parser::parseResults(const std::string json) {
+std::set<Tweet> Parser::parseResults(const std::string &json) {
 	std::set<Tweet> tweets;
 	json_error_t error;
 	json_t * root, * results;
@@ -35,7 +48,6 @@ std::set<Tweet> Parser::parseResults(const std::string json) {
 	char * source = (char *)str.c_str();
 	root = json_loads(source, 0, &error);
 	if (root && json_is_object(root)) {
-		std::cout << "It's an object!" << std::endl; //DELME
 		results = json_object_get(root, "results");
 		if (results && json_is_array(results)) {
 			for (size_t i=0; i < json_array_size(results); i++) {
@@ -70,7 +82,7 @@ std::set<Tweet> Parser::parseResults(const std::string json) {
 				}
 			}
 		} else {
-			std::cout << "JSON array expected!" << std::endl;
+			std::cout << "JSON array expected!" << std::endl; //DELME
 		}
 	} else {
 		std::cout << error.text << std::endl;
@@ -79,7 +91,7 @@ std::set<Tweet> Parser::parseResults(const std::string json) {
 	return tweets;
 }
 
-long Parser::getUNIXTime(std::string timestamp) {
+long Parser::getUNIXTime(const std::string &timestamp) {
 	long epoch;
 	struct tm tm;
 	char * buffer = (char *)timestamp.c_str();
@@ -92,4 +104,5 @@ long Parser::getUNIXTime(std::string timestamp) {
 
 	return epoch;
 }
+
 

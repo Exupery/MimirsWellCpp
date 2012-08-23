@@ -12,12 +12,12 @@
 
 class Parser {
 private:
-	long getUNIXTime(std::string timestamp);
+	long getUNIXTime(const std::string &timestamp);
 public:
 	Parser();
 	virtual ~Parser();
-	std::string parseNextPage(std::string json);
-	std::set<Tweet> parseResults(std::string json);
+	std::string parseNextPage(const std::string &json);
+	std::set<Tweet> parseResults(const std::string &json);
 };
 
 #endif /* PARSER_H_ */
