@@ -23,7 +23,7 @@ std::set<Tweet> Twitter::search(std::string symbol) {
 	std::string url = buildSearchURL(symbol);
 	std::string results = curlRead(url);
 	Parser parser;
-	std::set<Tweet> tweets = parser.parseJSON(results);
+	std::set<Tweet> tweets = parser.parseResults(results);
 	return tweets;
 }
 

@@ -20,7 +20,11 @@ Parser::~Parser() {
 
 }
 
-std::set<Tweet> Parser::parseJSON(const std::string json) {
+std::string parseNextPage(std::string json) {
+	return "";
+}
+
+std::set<Tweet> Parser::parseResults(const std::string json) {
 	std::set<Tweet> tweets;
 	json_error_t error;
 	json_t * root, * results;
