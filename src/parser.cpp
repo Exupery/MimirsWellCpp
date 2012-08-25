@@ -6,7 +6,7 @@
  */
 
 #include <algorithm>
-#include <iostream> //DELME
+#include <iostream>
 #include <string>
 #include <jansson.h>
 #include <time.h>
@@ -44,7 +44,6 @@ std::set<Tweet> Parser::parseResults(const std::string &json) {
 	//remove newlines for jansson
 	std::string str = json;
 	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
-//	char * source = (char *)"{\"results\":[{\"created_at\":\"Sat, 18 Aug 2012 20:14:17 +0000\",\"from_user_id\":106725205,\"id\":236918965404848128,\"text\":\"testing...\"}]}";
 	char * source = (char *)str.c_str();
 	root = json_loads(source, 0, &error);
 	if (root && json_is_object(root)) {
@@ -81,11 +80,9 @@ std::set<Tweet> Parser::parseResults(const std::string &json) {
 					}
 				}
 			}
-		} else {
-			std::cout << "JSON array expected!" << std::endl; //DELME
 		}
 	} else {
-		std::cout << error.text << std::endl;
+		std::cerr << error.text << std::endl;
 	}
 
 	return tweets;
@@ -97,7 +94,6 @@ long Parser::getUNIXTime(const std::string &timestamp) {
 	char * buffer = (char *)timestamp.c_str();
 	if (strptime(buffer, "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
 		epoch = mktime(&tm);
-		std::cout << epoch << std::endl; //DELME
 	} else {
 		epoch = 0;
 	}
