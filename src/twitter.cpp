@@ -30,7 +30,7 @@ std::set<Tweet> Twitter::search(const std::string &symbol) {
 }
 
 std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
-	std::string url = BASE_URL + std::string("&q=%24") + symbol;
+	std::string url = BASE_URL + std::string("?lang=en&q=%24") + symbol;
 	return url;
 }
 
