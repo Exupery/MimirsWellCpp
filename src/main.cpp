@@ -21,10 +21,15 @@ void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * sy
 
 int main(int argc, char * argv[]) {
 	std::cout << "parsing argv for symbols" << std::endl;
-	std::cout << argc << std::endl;	//DELME
 
 	std::set<std::string> symbols = getSymbols(argc, argv);
-	std::cout << "Symbols:\t" << symbols.size() << std::endl;
+
+	std::set<std::string>::const_iterator iter = symbols.begin();
+	while (iter != symbols.end()) {
+		std::cout << *iter << std::endl; //DELME
+		iter++;
+	}
+	std::cout << "Total:\t" << symbols.size() << std::endl;
 
 //	Twitter twitter;
 //	std::set<Tweet> test = twitter.search("QQQ");
@@ -40,14 +45,11 @@ std::set<std::string> getSymbols(int length, char * params[]) {
 			switch (c) {
 			case 'f':
 				parseFromFile(optarg, &symbols);
-//				std::cout << "f" << "\t" << optind << "\t" << optarg << std::endl;	//DELME
 				break;
 			case 's':
 				parseFromArgs(optind-1, length, params, &symbols);
-//				std::cout << "s" << "\t" << optind << "\t" << optarg << std::endl;	//DELME
 				break;
 			default:
-				std::cout << c << optarg << std::endl;
 				break;
 			}
 		}
@@ -55,7 +57,7 @@ std::set<std::string> getSymbols(int length, char * params[]) {
 }
 
 void parseFromFile(std::string filename, std::set<std::string> * symbols) {
-	std::cout << filename << std::endl;	//DELME
+//	std::cout << filename << std::endl;	//DELME
 	//TODO: parse file
 }
 
@@ -64,7 +66,6 @@ void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * sy
 		if (syms[i][0] == '-') {
 			break;
 		}
-		std::cout << syms[i] << std::endl;	//DELME
 		symbols->insert(syms[i]);
 	}
 }
