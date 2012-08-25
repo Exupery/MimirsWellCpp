@@ -20,12 +20,19 @@ Twitter::~Twitter() {
 }
 
 std::set<Tweet> Twitter::search(const std::string &symbol) {
+	Parser parser;
 	std::string url = buildInitialSearchURL(symbol);
 	std::string results = curlRead(url);
-	Parser parser;
+	std::set<Tweet> tweets = parser.parseResults(results); //TODO: move
 	std::string next = parser.parseNextPage(results);
-	std::cout << buildNextSearchURL(next) << std::endl; //DELME
-	std::set<Tweet> tweets = parser.parseResults(results);
+	while (next.length() > 0) {
+		url = buildNextSearchURL(next);
+		std::cout << url << std::endl; //DELME
+		results = curlRead(url);
+		tweets = parser.parseResults(results); //TODO: do stuff with results
+		next = parser.parseNextPage(results);
+	}
+	std::cout << results << std::endl; //DELME
 	return tweets;
 }
 
