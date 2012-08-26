@@ -8,6 +8,7 @@
 +=======================================================+
 */
 
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -57,8 +58,11 @@ std::set<std::string> getSymbols(int length, char * params[]) {
 }
 
 void parseFromFile(std::string filename, std::set<std::string> * symbols) {
-//	std::cout << filename << std::endl;	//DELME
-	//TODO: parse file
+	std::ifstream infile(filename.c_str());
+	std::string line;
+	while (std::getline(infile, line)) {
+		symbols->insert(line);
+	}
 }
 
 void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * symbols) {
