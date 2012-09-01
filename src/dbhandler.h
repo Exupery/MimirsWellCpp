@@ -9,6 +9,8 @@
 #define DBHANDLER_H_
 
 class DBHandler {
+private:
+	std::string getMongoDBError(int status);
 public:
 	DBHandler();
 	virtual ~DBHandler();
