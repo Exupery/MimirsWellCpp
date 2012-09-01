@@ -13,6 +13,7 @@
 #include <string>
 #include <stdio.h>
 #include <unistd.h>
+#include "dbhandler.h"
 #include "twitter.h"
 #include "tweet.h"
 

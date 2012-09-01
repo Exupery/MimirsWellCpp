@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lcurl -ljansson
+LIBS := -lcurl -ljansson -lmongoc
 

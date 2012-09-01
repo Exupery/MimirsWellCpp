@@ -5,10 +5,12 @@
  *      Author: frost
  */
 
+#include <iostream>
+#include <mongo.h>
 #include "dbhandler.h"
 
 DBHandler::DBHandler() {
-
+	std::cout << "test" << std::endl;
 
 }
 
