@@ -21,7 +21,7 @@ void parseFromFile(std::string filename, std::set<std::string> * symbols);
 void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * symbols);
 
 int main(int argc, char * argv[]) {
-	std::cout << "parsing argv for symbols" << std::endl;
+	std::cout << "testing mongodb writes" << std::endl;
 
 	std::set<std::string> symbols = getSymbols(argc, argv);
 
@@ -32,9 +32,11 @@ int main(int argc, char * argv[]) {
 	}
 	std::cout << "Total:\t" << symbols.size() << std::endl;
 
-//	Twitter twitter;
-//	std::set<Tweet> test = twitter.search("QQQ");
-//	std::cout << test.size() << std::endl;
+	Twitter twitter;
+	std::set<Tweet> test = twitter.search("QQQ");
+	std::cout << test.size() << std::endl;
+
+	DBHandler dbh;
 
 	return 0;
 }
