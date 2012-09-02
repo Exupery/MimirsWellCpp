@@ -25,15 +25,15 @@ DBHandler::DBHandler() {
 //	mongo_insert( &db, "test.test_tweets", &b, NULL );
 
 	mongo db;
-//	if (connect(&db)) {
-//		mongo_cursor cursor;
-//		mongo_cursor_init (&cursor, &db, TWEETS);
-//		while (mongo_cursor_next(&cursor) == MONGO_OK) {
-//			bson_print(&cursor.current);
-//		}
-//
-//
-//	}
+//	runQuery(&db, NULL, TWEETS);
+	bson query;
+	bson_init(&query);
+	bson_append_int(&query, "foo", 108);
+	bson_finish(&query);
+	runQuery(&db, &query, TWEETS);
+	mongo_destroy(&db);
+
+	std::cout << "\nALL:" << std::endl;
 	runQuery(&db, NULL, TWEETS);
 	mongo_destroy(&db);
 }
@@ -52,6 +52,9 @@ mongo_cursor DBHandler::runQuery(mongo * db, bson * query, const char * ns) {
 	mongo_cursor cursor;
 	if (connect(db)) {
 		mongo_cursor_init (&cursor, db, ns);
+		if (query != NULL) {
+			mongo_cursor_set_query(&cursor, query);
+		}
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
 			bson_print(&cursor.current);
 		}
