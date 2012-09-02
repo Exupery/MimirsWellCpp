@@ -19,7 +19,7 @@ private:
 	int port;
 	bool connect(mongo * db);
 	std::string getMongoDBError(int status);
-	mongo_cursor runQuery(mongo * db, bson * query);
+	mongo_cursor runQuery(mongo * db, bson * query, const char * ns);
 public:
 	DBHandler();
 	virtual ~DBHandler();

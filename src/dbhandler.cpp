@@ -34,7 +34,7 @@ DBHandler::DBHandler() {
 //
 //
 //	}
-	runQuery(&db, NULL);
+	runQuery(&db, NULL, TWEETS);
 	mongo_destroy(&db);
 }
 
@@ -48,10 +48,10 @@ int DBHandler::addTweets(std::set<Tweet>) {
 	return newDocs;
 }
 
-mongo_cursor DBHandler::runQuery(mongo * db, bson * query) {;
+mongo_cursor DBHandler::runQuery(mongo * db, bson * query, const char * ns) {
 	mongo_cursor cursor;
 	if (connect(db)) {
-		mongo_cursor_init (&cursor, db, TWEETS);
+		mongo_cursor_init (&cursor, db, ns);
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
 			bson_print(&cursor.current);
 		}
