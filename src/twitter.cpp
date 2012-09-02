@@ -23,12 +23,12 @@ std::set<Tweet> Twitter::search(const std::string &symbol) {
 	Parser parser;
 	std::string url = buildInitialSearchURL(symbol);
 	std::string results = curlRead(url);
-	std::set<Tweet> tweets = parser.parseResults(results);
+	std::set<Tweet> tweets = parser.parseResults(results, symbol);
 	std::string next = parser.parseNextPage(results);
 	while (next.length() > 0) {
 		url = buildNextSearchURL(next);
 		results = curlRead(url);
-		std::set<Tweet> nextTweets = parser.parseResults(results);
+		std::set<Tweet> nextTweets = parser.parseResults(results, symbol);
 		tweets.insert(nextTweets.begin(), nextTweets.end());
 		next = parser.parseNextPage(results);
 	}

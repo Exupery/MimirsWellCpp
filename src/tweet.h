@@ -17,8 +17,9 @@ private:
 	long id;
 	long postedAt;
 	std::string text;
+	std::string symbol;
 public:
-	Tweet();
+	Tweet(const std::string &symbol);
 	virtual ~Tweet();
 	void setUserID(int userID);
 	void setID(long id);
@@ -28,6 +29,7 @@ public:
 	long getID() const;
 	long getPostedAt();
 	std::string getText();
+	std::string getSymbol();
 };
 
 #endif /* TWEET_H_ */

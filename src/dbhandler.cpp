@@ -51,12 +51,14 @@ int DBHandler::addTweets(std::set<Tweet> tweets) {
 	while (iter != tweets.end()) {
 		Tweet t = *iter;
 		std::cout << t.getPostedAt() << std::endl;	//DELME
+		std::cout << t.getSymbol() << std::endl;	//DELME
 		bson b;
 		bson_init(&b);
 		bson_append_int(&b, "user_id", t.getUserID());
 		bson_append_long(&b, "id", t.getID());
 		bson_append_long(&b, "posted_at", t.getPostedAt());
 		bson_append_string(&b, "text", t.getText().c_str());
+		bson_append_string(&b, "sym", t.getSymbol().c_str());
 		bson_finish(&b);
 		iter++;
 	}

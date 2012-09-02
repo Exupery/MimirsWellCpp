@@ -17,7 +17,7 @@ public:
 	Parser();
 	virtual ~Parser();
 	std::string parseNextPage(const std::string &json);
-	std::set<Tweet> parseResults(const std::string &json);
+	std::set<Tweet> parseResults(const std::string &json, const std::string &symbol);
 };
 
 #endif /* PARSER_H_ */

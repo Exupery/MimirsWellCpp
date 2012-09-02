@@ -37,7 +37,7 @@ std::string Parser::parseNextPage(const std::string &json) {
 	return next;
 }
 
-std::set<Tweet> Parser::parseResults(const std::string &json) {
+std::set<Tweet> Parser::parseResults(const std::string &json, const std::string &symbol) {
 	std::set<Tweet> tweets;
 	json_error_t error;
 	json_t * root, * results;
@@ -53,7 +53,7 @@ std::set<Tweet> Parser::parseResults(const std::string &json) {
 				json_t * data, * createdAt, * userID, * id, * text;
 				data = json_array_get(results, i);
 				if (json_is_object(data)) {
-					Tweet t;
+					Tweet t(symbol);
 
 					createdAt = json_object_get(data, "created_at");
 					if (json_is_string(createdAt)) {

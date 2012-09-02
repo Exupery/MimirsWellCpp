@@ -7,11 +7,12 @@
 
 #include "tweet.h"
 
-Tweet::Tweet() {
+Tweet::Tweet(const std::string &symbol) {
 	userID = 0;
 	id = 0;
 	postedAt = 0;
 	text = "";
+	this->symbol = symbol;
 }
 
 Tweet::~Tweet() {
@@ -44,6 +45,10 @@ long Tweet::getID() const {
 
 long Tweet::getPostedAt() {
 	return postedAt;
+}
+
+std::string Tweet::getSymbol() {
+	return symbol;
 }
 
 std::string Tweet::getText() {
