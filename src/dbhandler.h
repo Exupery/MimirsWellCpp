@@ -15,12 +15,16 @@
 
 class DBHandler {
 private:
+	std::string host;
+	int port;
 	bool connect(mongo * db);
 	std::string getMongoDBError(int status);
+	mongo_cursor runQuery(mongo * db, bson * query);
 public:
 	DBHandler();
 	virtual ~DBHandler();
 	int addTweets(std::set<Tweet>);
+	std::set<Tweet> getTweets();
 };
 
 #endif /* DBHANDLER_H_ */

@@ -9,7 +9,8 @@
 #include "dbhandler.h"
 
 DBHandler::DBHandler() {
-	std::cout << "testing...." << std::endl;	//DELME
+	host = "127.0.0.1";
+	port = 27017;
 //	int status = mongo_connect(&db, "127.0.0.1", 27017);
 //	if (status != MONGO_OK) {
 //		std::cerr << "Unable to connect to MONGODB\tError " << getMongoDBError(db.err) << std::endl;	//DELME
@@ -22,17 +23,19 @@ DBHandler::DBHandler() {
 //	bson_finish(&b);
 //	bson_print( &b );
 //	mongo_insert( &db, "test.test_tweets", &b, NULL );
+
 	mongo db;
-
-	if (connect(&db)) {
-		mongo_cursor cursor;
-		mongo_cursor_init (&cursor, &db, TWEETS);
-		while (mongo_cursor_next(&cursor) == MONGO_OK) {
-			bson_print(&cursor.current);
-		}
-
-		mongo_destroy(&db);
-	}
+//	if (connect(&db)) {
+//		mongo_cursor cursor;
+//		mongo_cursor_init (&cursor, &db, TWEETS);
+//		while (mongo_cursor_next(&cursor) == MONGO_OK) {
+//			bson_print(&cursor.current);
+//		}
+//
+//
+//	}
+	runQuery(&db, NULL);
+	mongo_destroy(&db);
 }
 
 DBHandler::~DBHandler() {
@@ -45,8 +48,19 @@ int DBHandler::addTweets(std::set<Tweet>) {
 	return newDocs;
 }
 
+mongo_cursor DBHandler::runQuery(mongo * db, bson * query) {;
+	mongo_cursor cursor;
+	if (connect(db)) {
+		mongo_cursor_init (&cursor, db, TWEETS);
+		while (mongo_cursor_next(&cursor) == MONGO_OK) {
+			bson_print(&cursor.current);
+		}
+	}
+	return cursor;
+}
+
 bool DBHandler::connect(mongo * db) {
-	int status = mongo_connect(db, "127.0.0.1", 27017);
+	int status = mongo_connect(db, host.c_str(), port);
 	if (status != MONGO_OK) {
 		std::cerr << "Unable to connect to MONGODB\t" << getMongoDBError(db->err) << std::endl;
 		return false;
