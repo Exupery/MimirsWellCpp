@@ -23,8 +23,9 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	int addTweets(std::set<Tweet>);
+	int addTweets(std::set<Tweet> tweets);
 	std::set<Tweet> getTweets();
+	long getLastPostedTime(const char * symbol);
 };
 
 #endif /* DBHANDLER_H_ */

@@ -38,6 +38,7 @@ int main(int argc, char * argv[]) {
 	std::cout << test.size() << std::endl;
 
 	DBHandler dbh;
+	dbh.addTweets(test);
 
 	return 0;
 }

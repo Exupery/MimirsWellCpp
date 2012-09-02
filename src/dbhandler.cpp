@@ -24,28 +24,49 @@ DBHandler::DBHandler() {
 //	bson_print( &b );
 //	mongo_insert( &db, "test.test_tweets", &b, NULL );
 
-	mongo db;
+//	mongo db;
+//	bson query;
+//	bson_init(&query);
+//	bson_append_int(&query, "foo", 108);
+//	bson_finish(&query);
+//	runQuery(&db, &query, TWEETS);
+//	mongo_destroy(&db);
+//
+//	std::cout << "\nALL:" << std::endl;
 //	runQuery(&db, NULL, TWEETS);
-	bson query;
-	bson_init(&query);
-	bson_append_int(&query, "foo", 108);
-	bson_finish(&query);
-	runQuery(&db, &query, TWEETS);
-	mongo_destroy(&db);
+//	mongo_destroy(&db);
 
-	std::cout << "\nALL:" << std::endl;
-	runQuery(&db, NULL, TWEETS);
-	mongo_destroy(&db);
 }
 
 DBHandler::~DBHandler() {
 
 }
 
-int DBHandler::addTweets(std::set<Tweet>) {
+int DBHandler::addTweets(std::set<Tweet> tweets) {
 	int newDocs = 0;
-
+	//TODO add tweets
+	std::set<bson> tweetDocs;
+	std::set<Tweet>::const_iterator iter;
+	iter = tweets.begin();
+	while (iter != tweets.end()) {
+		Tweet t = *iter;
+		std::cout << t.getPostedAt() << std::endl;	//DELME
+		bson b;
+		bson_init(&b);
+		bson_append_int(&b, "user_id", t.getUserID());
+		bson_append_long(&b, "id", t.getID());
+		bson_append_long(&b, "posted_at", t.getPostedAt());
+		bson_append_string(&b, "text", t.getText().c_str());
+		bson_finish(&b);
+		iter++;
+	}
 	return newDocs;
+}
+
+long DBHandler::getLastPostedTime(const char * symbol) {
+	long mostRecent = 0;
+	//TODO get update time for sym
+	return mostRecent;
 }
 
 mongo_cursor DBHandler::runQuery(mongo * db, bson * query, const char * ns) {
