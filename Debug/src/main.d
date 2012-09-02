@@ -1,8 +1,8 @@
-src/main.d: ../src/main.cpp ../src/dbhandler.h ../src/twitter.h \
- ../src/tweet.h
+src/main.d: ../src/main.cpp ../src/dbhandler.h ../src/tweet.h \
+ ../src/twitter.h
 
 ../src/dbhandler.h:
 
-../src/twitter.h:
-
 ../src/tweet.h:
+
+../src/twitter.h:
