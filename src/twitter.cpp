@@ -29,8 +29,7 @@ std::vector<Tweet> Twitter::search(const std::string &symbol) {
 		url = buildNextSearchURL(next);
 		results = curlRead(url);
 		std::vector<Tweet> nextTweets = parser.parseResults(results, symbol);
-		//TODO add all
-//		tweets.insert(nextTweets.begin(), nextTweets.end());
+		tweets.insert(tweets.end(), nextTweets.begin(), nextTweets.end());
 		next = parser.parseNextPage(results);
 	}
 

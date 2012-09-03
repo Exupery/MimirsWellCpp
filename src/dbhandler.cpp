@@ -36,41 +36,39 @@ bool DBHandler::addTweets(std::vector<Tweet> * tweets) {
 		iter++;
 	}
 
-	return writeDocs(tweetDocs);
+	return writeDocs(tweetDocs, TWEETS, i);
 }
 
-bool DBHandler::writeDocs(const bson ** docs) {
+bool DBHandler::writeDocs(const bson ** docs, const char * ns, int numDocs) {
 	bool writeSuccess = false;
 	mongo db;
 	if (connect(&db)) {
-		if (mongo_insert_batch(&db, "test.tweets", docs, 15, db.write_concern, 0) != MONGO_OK) {
+		if (mongo_insert_batch(&db, ns, docs, numDocs, db.write_concern, 0) != MONGO_OK) {
 			std::cerr << "Unable to write to MongoDB" << std::endl;
 		} else {
 			writeSuccess = true;
 		}
-		mongo_destroy(&db);
+
 	}
+	mongo_destroy(&db);
 	return writeSuccess;
 }
 
 long DBHandler::getLastPostedTime(const char * symbol) {
 	long mostRecent = 0;
 	//TODO get update time for sym
-	return mostRecent;
-}
-
-mongo_cursor DBHandler::runQuery(mongo * db, bson * query, const char * ns) {
-	mongo_cursor cursor;
-	if (connect(db)) {
-		mongo_cursor_init (&cursor, db, ns);
-		if (query != NULL) {
-			mongo_cursor_set_query(&cursor, query);
-		}
+	mongo db;
+	if (connect(&db)){
+		mongo_cursor cursor;
+		mongo_cursor_init(&cursor, &db, TWEETS);
+//		mongo_cursor_set_query(cursor, query);
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
+			std::cout << "cursor not NULL" << std::endl;
 			bson_print(&cursor.current);
 		}
 	}
-	return cursor;
+	mongo_destroy(&db);
+	return mostRecent;
 }
 
 bool DBHandler::connect(mongo * db) {

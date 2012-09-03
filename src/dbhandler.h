@@ -8,7 +8,7 @@
 #include <mongo.h>
 #include "tweet.h"
 
-#define TWEETS "test.foo"
+#define TWEETS "test.tweets"
 
 #ifndef DBHANDLER_H_
 #define DBHANDLER_H_
@@ -19,8 +19,7 @@ private:
 	int port;
 	bool connect(mongo * db);
 	std::string getMongoDBError(int status);
-	mongo_cursor runQuery(mongo * db, bson * query, const char * ns);
-	bool writeDocs(const bson ** docs);
+	bool writeDocs(const bson ** docs, const char * ns, int numDocs);
 public:
 	DBHandler();
 	virtual ~DBHandler();
