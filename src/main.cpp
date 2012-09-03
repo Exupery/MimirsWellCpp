@@ -10,6 +10,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <stdio.h>
@@ -24,24 +25,23 @@ void parseFromArgs(int start, int end, char * syms[], std::vector<std::string> *
 
 int main(int argc, char * argv[]) {
 	time_t start = time(0);
+	DBHandler dbh;
 	Twitter twitter;
-	std::cout << "testing mongodb reads/writes\t" << start << std::endl;
+	std::cout << std::left << std::setw(12) << "begin test" << start << std::endl;	//DELME
+
+	int total = 0;
 	std::vector<std::string> symbols = getSymbols(argc, argv);
 	std::vector<std::string>::const_iterator iter = symbols.begin();
 	while (iter != symbols.end()) {
-		std::cout << *iter << std::endl; //DELME
+		std::vector<Tweet> tweets = twitter.search(*iter);
+		dbh.addTweets(&tweets);
+		total += tweets.size();
 		iter++;
 	}
-	std::cout << "Total:\t" << symbols.size() << std::endl;
 
-
-	std::vector<Tweet> test = twitter.search("QQQ");
-	std::cout << test.size() << std::endl;
-
-	DBHandler dbh;
-	dbh.addTweets(&test);
-
-	std::cout << "testing complete\t" << time(0) << "\t" << time(0)-start << "ms" << std::endl;
+	std::cout << std::setw(12) << "Symbols:" << symbols.size() << std::endl;
+	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
+	std::cout << std::setw(12) << "complete" << time(0) << "\t" << time(0)-start << "s" << std::endl;	//DELME
 	return 0;
 }
 
