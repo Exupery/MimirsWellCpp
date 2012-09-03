@@ -76,8 +76,7 @@ long DBHandler::getMostRecentID(const char * symbol) {
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
 			bson_iterator iter;
 			if (bson_find(&iter, mongo_cursor_bson(&cursor), "id")) {
-				std::cout << bson_iterator_long(&iter) << std::endl;
-				mostRecent = bson_iterator_long(&iter);	//DELME
+				mostRecent = bson_iterator_long(&iter);
 			}
 		}
 		mongo_cursor_destroy(&cursor);

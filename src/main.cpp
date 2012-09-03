@@ -35,6 +35,7 @@ int main(int argc, char * argv[]) {
 	while (iter != symbols.end()) {
 		std::vector<Tweet> tweets = twitter.search(*iter);
 		dbh.addTweets(&tweets);
+		std::cout << *iter << ":\t" << tweets.size() << std::endl;
 		total += tweets.size();
 		iter++;
 	}

@@ -43,7 +43,6 @@ std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
 	std::stringstream strstream;
 	strstream << dbh.getMostRecentID(symbol.c_str());
 	std::string url = BASE_URL + std::string("?lang=en&rpp=100&q=%24") + symbol + std::string("&since_id=") + strstream.str();
-	std::cout << url << std::endl;	//DELME
 	return url;
 }
 
