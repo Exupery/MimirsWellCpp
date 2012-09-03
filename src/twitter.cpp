@@ -6,8 +6,10 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include "dbhandler.h"
 #include "twitter.h"
 #include "parser.h"
 
@@ -37,8 +39,11 @@ std::vector<Tweet> Twitter::search(const std::string &symbol) {
 }
 
 std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
-	long last = 0;
-	std::string url = BASE_URL + std::string("?lang=en&rpp=100&q=%24") + symbol;
+	DBHandler dbh;
+	std::stringstream strstream;
+	strstream << dbh.getMostRecentID(symbol.c_str());
+	std::string url = BASE_URL + std::string("?lang=en&rpp=100&q=%24") + symbol + std::string("&since_id=") + strstream.str();
+	std::cout << url << std::endl;	//DELME
 	return url;
 }
 

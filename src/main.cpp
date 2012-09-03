@@ -40,8 +40,8 @@ int main(int argc, char * argv[]) {
 
 	DBHandler dbh;
 	dbh.addTweets(&test);
-	long last = dbh.getMostRecentID("QQQ");
-	std::cout << "last:" << last << std::endl;
+//	long last = dbh.getMostRecentID("QQQ");
+//	std::cout << "last:" << last << std::endl;
 
 	return 0;
 }
