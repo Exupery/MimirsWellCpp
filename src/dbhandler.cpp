@@ -54,7 +54,7 @@ bool DBHandler::writeDocs(const bson ** docs, const char * ns, int numDocs) {
 	return writeSuccess;
 }
 
-long DBHandler::getLastPostedTime(const char * symbol) {
+long DBHandler::getMostRecentID(const char * symbol) {
 	long mostRecent = 0;
 	mongo db;
 	if (connect(&db)){
@@ -75,7 +75,7 @@ long DBHandler::getLastPostedTime(const char * symbol) {
 		cursor.limit = 1;
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
 			bson_iterator iter;
-			if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
+			if (bson_find(&iter, mongo_cursor_bson(&cursor), "id")) {
 				std::cout << bson_iterator_long(&iter) << std::endl;
 				mostRecent = bson_iterator_long(&iter);
 			}

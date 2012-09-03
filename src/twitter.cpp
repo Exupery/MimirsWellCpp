@@ -37,7 +37,8 @@ std::vector<Tweet> Twitter::search(const std::string &symbol) {
 }
 
 std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
-	std::string url = BASE_URL + std::string("?lang=en&q=%24") + symbol;
+	long last = 0;
+	std::string url = BASE_URL + std::string("?lang=en&rpp=100&q=%24") + symbol;
 	return url;
 }
 

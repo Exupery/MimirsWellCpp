@@ -25,7 +25,7 @@ public:
 	virtual ~DBHandler();
 	bool addTweets(std::vector<Tweet> * tweets);
 	std::vector<Tweet> getTweets();
-	long getLastPostedTime(const char * symbol);
+	long getMostRecentID(const char * symbol);
 };
 
 #endif /* DBHANDLER_H_ */
