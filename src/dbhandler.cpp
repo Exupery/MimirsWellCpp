@@ -56,16 +56,31 @@ bool DBHandler::writeDocs(const bson ** docs, const char * ns, int numDocs) {
 
 long DBHandler::getLastPostedTime(const char * symbol) {
 	long mostRecent = 0;
-	//TODO get update time for sym
 	mongo db;
 	if (connect(&db)){
 		mongo_cursor cursor;
 		mongo_cursor_init(&cursor, &db, TWEETS);
-//		mongo_cursor_set_query(cursor, query);
+
+		bson query;
+		bson_init(&query);
+		bson_append_start_object(&query, "$query");
+		bson_append_string(&query, "sym", symbol);
+		bson_append_finish_object(&query);
+		bson_append_start_object(&query, "$orderby");
+		bson_append_int(&query, "posted_at", -1);
+		bson_append_finish_object(&query);
+		bson_finish(&query);
+
+		mongo_cursor_set_query(&cursor, &query);
+		cursor.limit = 1;
 		while (mongo_cursor_next(&cursor) == MONGO_OK) {
-			std::cout << "cursor not NULL" << std::endl;
-			bson_print(&cursor.current);
+			bson_iterator iter;
+			if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
+				std::cout << bson_iterator_long(&iter) << std::endl;
+				mostRecent = bson_iterator_long(&iter);
+			}
 		}
+		mongo_cursor_destroy(&cursor);
 	}
 	mongo_destroy(&db);
 	return mostRecent;

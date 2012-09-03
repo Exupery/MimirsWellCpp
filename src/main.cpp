@@ -23,7 +23,7 @@ void parseFromFile(std::string filename, std::vector<std::string> * symbols);
 void parseFromArgs(int start, int end, char * syms[], std::vector<std::string> * symbols);
 
 int main(int argc, char * argv[]) {
-	std::cout << "testing mongodb writes" << std::endl;
+	std::cout << "testing mongodb reads/writes" << std::endl;
 
 	std::vector<std::string> symbols = getSymbols(argc, argv);
 
