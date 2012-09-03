@@ -21,12 +21,11 @@ private:
 	bool connect(mongo * db);
 	std::string getMongoDBError(int status);
 	mongo_cursor runQuery(mongo * db, bson * query, const char * ns);
-//	int writeDocs(std::vector<bson> * docs);
-	int writeDocs(const bson ** docs);
+	bool writeDocs(const bson ** docs);
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	int addTweets(std::set<Tweet> * tweets);
+	bool addTweets(std::set<Tweet> * tweets);
 	std::set<Tweet> getTweets();
 	long getLastPostedTime(const char * symbol);
 };
