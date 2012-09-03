@@ -17,9 +17,9 @@ DBHandler::~DBHandler() {
 
 }
 
-bool DBHandler::addTweets(std::set<Tweet> * tweets) {
+bool DBHandler::addTweets(std::vector<Tweet> * tweets) {
 	const bson ** tweetDocs = (const bson **)malloc(sizeof(bson *) * tweets->size());
-	std::set<Tweet>::const_iterator iter;
+	std::vector<Tweet>::const_iterator iter;
 	iter = tweets->begin();
 	int i = 0;
 	while (iter != tweets->end()) {
@@ -43,7 +43,7 @@ bool DBHandler::writeDocs(const bson ** docs) {
 	bool writeSuccess = false;
 	mongo db;
 	if (connect(&db)) {
-		if (mongo_insert_batch(&db, "test.foo", docs, 15, db.write_concern, 0) != MONGO_OK) {
+		if (mongo_insert_batch(&db, "test.tweets", docs, 15, db.write_concern, 0) != MONGO_OK) {
 			std::cerr << "Unable to write to MongoDB" << std::endl;
 		} else {
 			writeSuccess = true;

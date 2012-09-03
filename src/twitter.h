@@ -5,7 +5,7 @@
  *      Author: frost
  */
 
-#include <set>
+#include <vector>
 #include <string>
 #include "tweet.h"
 
@@ -23,7 +23,7 @@ private:
 public:
 	Twitter();
 	virtual ~Twitter();
-	std::set<Tweet> search(const std::string &symbol);
+	std::vector<Tweet> search(const std::string &symbol);
 };
 
 #endif /* TWITTER_H_ */

@@ -4,7 +4,6 @@
  *  Created on: Sep 1, 2012
  *      Author: frost
  */
-#include <set>
 #include <vector>
 #include <mongo.h>
 #include "tweet.h"
@@ -25,8 +24,8 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	bool addTweets(std::set<Tweet> * tweets);
-	std::set<Tweet> getTweets();
+	bool addTweets(std::vector<Tweet> * tweets);
+	std::vector<Tweet> getTweets();
 	long getLastPostedTime(const char * symbol);
 };
 
