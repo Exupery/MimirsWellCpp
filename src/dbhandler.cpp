@@ -6,7 +6,6 @@
  */
 
 #include <iostream>
-#include <vector>
 #include "dbhandler.h"
 
 DBHandler::DBHandler() {
@@ -43,27 +42,49 @@ DBHandler::~DBHandler() {
 
 }
 
-int DBHandler::addTweets(std::set<Tweet> tweets) {
+int DBHandler::addTweets(std::set<Tweet> * tweets) {
 	int newDocs = 0;
 	//TODO add tweets
-	std::vector<bson> tweetDocs;
+//	std::vector<bson> tweetDocs;
+//	bson tweetDocs[tweets->size()];
+	const bson ** tweetDocs = (const bson **)malloc(sizeof(bson *) * tweets->size());
 	std::set<Tweet>::const_iterator iter;
-	iter = tweets.begin();
-	while (iter != tweets.end()) {
+	iter = tweets->begin();
+	int i = 0;
+	while (iter != tweets->end()) {
 		Tweet t = *iter;
-		bson b;
-		bson_init(&b);
-		bson_append_int(&b, "user_id", t.getUserID());
-		bson_append_long(&b, "id", t.getID());
-		bson_append_long(&b, "posted_at", t.getPostedAt());
-		bson_append_string(&b, "text", t.getText().c_str());
-		bson_append_string(&b, "sym", t.getSymbol().c_str());
-		bson_finish(&b);
-		tweetDocs.push_back(b);
+		bson * b = (bson *)malloc(sizeof(bson));
+		bson_init(b);
+		bson_append_int(b, "user_id", t.getUserID());
+		bson_append_long(b, "id", t.getID());
+		bson_append_long(b, "posted_at", t.getPostedAt());
+		bson_append_string(b, "text", t.getText().c_str());
+		bson_append_string(b, "sym", t.getSymbol().c_str());
+		bson_finish(b);
+//		tweetDocs.push_back(b);
+		tweetDocs[i++] = b;
 		iter++;
 	}
-	std::cout << tweetDocs.size() << std::endl;	//DELME
+	newDocs = writeDocs(tweetDocs);
+	std::cout << sizeof(tweetDocs[0]) << "\t" << sizeof(tweetDocs) / sizeof(tweetDocs[0]) << std::endl;	//DELME
+	std::cout << newDocs << std::endl;	//DELME
 	return newDocs;
+}
+
+int DBHandler::writeDocs(const bson ** docs) {
+//int DBHandler::writeDocs(std::vector<bson> * docs) {
+	mongo db;
+	if (connect(&db)) {
+//		mongo_write_concern * wr = db.write_concern;
+		if (mongo_insert_batch(&db, "test.foo", docs, 15, db.write_concern, 0) != MONGO_OK) {
+			std::cout << "unable to write to db" << std::endl;
+		}
+	//	std::cout << docs->size() << std::endl;	//DELME
+		mongo_destroy(&db);
+	} else {
+		std::cout << "unable to connect" << std::endl;
+	}
+	return 0;
 }
 
 long DBHandler::getLastPostedTime(const char * symbol) {
