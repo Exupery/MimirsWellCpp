@@ -23,10 +23,10 @@ void parseFromFile(std::string filename, std::vector<std::string> * symbols);
 void parseFromArgs(int start, int end, char * syms[], std::vector<std::string> * symbols);
 
 int main(int argc, char * argv[]) {
-	std::cout << "testing mongodb reads/writes" << std::endl;
-
+	time_t start = time(0);
+	Twitter twitter;
+	std::cout << "testing mongodb reads/writes\t" << start << std::endl;
 	std::vector<std::string> symbols = getSymbols(argc, argv);
-
 	std::vector<std::string>::const_iterator iter = symbols.begin();
 	while (iter != symbols.end()) {
 		std::cout << *iter << std::endl; //DELME
@@ -34,15 +34,14 @@ int main(int argc, char * argv[]) {
 	}
 	std::cout << "Total:\t" << symbols.size() << std::endl;
 
-	Twitter twitter;
+
 	std::vector<Tweet> test = twitter.search("QQQ");
 	std::cout << test.size() << std::endl;
 
 	DBHandler dbh;
 	dbh.addTweets(&test);
-//	long last = dbh.getMostRecentID("QQQ");
-//	std::cout << "last:" << last << std::endl;
 
+	std::cout << "testing complete\t" << time(0) << "\t" << time(0)-start << "ms" << std::endl;
 	return 0;
 }
 
