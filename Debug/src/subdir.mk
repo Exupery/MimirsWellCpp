@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/dbhandler.cpp \
+../src/history.cpp \
 ../src/main.cpp \
 ../src/parser.cpp \
 ../src/tweet.cpp \
@@ -12,6 +13,7 @@ CPP_SRCS += \
 
 OBJS += \
 ./src/dbhandler.o \
+./src/history.o \
 ./src/main.o \
 ./src/parser.o \
 ./src/tweet.o \
@@ -19,6 +21,7 @@ OBJS += \
 
 CPP_DEPS += \
 ./src/dbhandler.d \
+./src/history.d \
 ./src/main.d \
 ./src/parser.d \
 ./src/tweet.d \

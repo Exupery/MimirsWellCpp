@@ -16,11 +16,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "dbhandler.h"
+#include "history.h"
 #include "twitter.h"
 #include "tweet.h"
 
 std::set<std::string> getSymbols(int length, char * params[]);
-int getHistoricalPrices(std::set<std::string> * symbols);
 int getTweets(std::set<std::string> * symbols);
 void parseFromFile(std::string filename, std::set<std::string> * symbols);
 void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * symbols);
@@ -33,7 +33,8 @@ int main(int argc, char * argv[]) {
 	int total = getTweets(&symbols);
 	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
 	std::cout << "Retreiving historical price data...";
-	int fetched = getHistoricalPrices(&symbols);
+	History h;
+	int fetched = h.updateHistoricalPrices(&symbols);
 	std::cout << "...complete" << std::endl;
 	std::cout << "Obtained historical prices for " << fetched << " symbols" << std::endl;
 
@@ -89,10 +90,4 @@ int getTweets(std::set<std::string> * symbols) {
 		iter++;
 	}
 	return total;
-}
-
-int getHistoricalPrices(std::set<std::string> * symbols) {
-	int fetched = 0;
-
-	return fetched;
 }
