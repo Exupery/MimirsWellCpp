@@ -20,6 +20,7 @@
 #include "tweet.h"
 
 std::set<std::string> getSymbols(int length, char * params[]);
+int getHistoricalPrices(std::set<std::string> * symbols);
 int getTweets(std::set<std::string> * symbols);
 void parseFromFile(std::string filename, std::set<std::string> * symbols);
 void parseFromArgs(int start, int end, char * syms[], std::set<std::string> * symbols);
@@ -31,6 +32,10 @@ int main(int argc, char * argv[]) {
 	std::cout << std::setw(12) << "Symbols:" << symbols.size() << std::endl;
 	int total = getTweets(&symbols);
 	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
+	std::cout << "Retreiving historical price data...";
+	int fetched = getHistoricalPrices(&symbols);
+	std::cout << "...complete" << std::endl;
+	std::cout << "Obtained historical prices for " << fetched << " symbols" << std::endl;
 
 	std::cout << std::setw(12) << "complete" << time(0) << "\t" << time(0)-start << "s" << std::endl;	//DELME
 	return 0;
@@ -84,4 +89,10 @@ int getTweets(std::set<std::string> * symbols) {
 		iter++;
 	}
 	return total;
+}
+
+int getHistoricalPrices(std::set<std::string> * symbols) {
+	int fetched = 0;
+
+	return fetched;
 }
