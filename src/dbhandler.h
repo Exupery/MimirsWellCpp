@@ -4,7 +4,7 @@
  *  Created on: Sep 1, 2012
  *      Author: frost
  */
-#include <vector>
+#include <set>
 #include <mongo.h>
 #include "tweet.h"
 
@@ -23,8 +23,8 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	bool addTweets(std::vector<Tweet> * tweets);
-	std::vector<Tweet> getTweets();
+	bool addTweets(std::set<Tweet> * tweets);
+	std::set<Tweet> getTweets();
 	long getMostRecentID(const char * symbol);
 };
 

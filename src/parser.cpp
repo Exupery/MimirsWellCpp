@@ -37,8 +37,8 @@ std::string Parser::parseNextPage(const std::string &json) {
 	return next;
 }
 
-std::vector<Tweet> Parser::parseResults(const std::string &json, const std::string &symbol) {
-	std::vector<Tweet> tweets;
+std::set<Tweet> Parser::parseResults(const std::string &json, const std::string &symbol) {
+	std::set<Tweet> tweets;
 	json_error_t error;
 	json_t * root, * results;
 	//remove newlines for jansson
@@ -76,7 +76,7 @@ std::vector<Tweet> Parser::parseResults(const std::string &json, const std::stri
 					}
 
 					if (t.getID() > 0 && t.getPostedAt() > 0) {
-						tweets.push_back(t);
+						tweets.insert(t);
 					}
 				}
 			}

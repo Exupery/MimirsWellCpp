@@ -17,9 +17,9 @@ DBHandler::~DBHandler() {
 
 }
 
-bool DBHandler::addTweets(std::vector<Tweet> * tweets) {
+bool DBHandler::addTweets(std::set<Tweet> * tweets) {
 	const bson ** tweetDocs = (const bson **)malloc(sizeof(bson *) * tweets->size());
-	std::vector<Tweet>::const_iterator iter;
+	std::set<Tweet>::const_iterator iter;
 	iter = tweets->begin();
 	int i = 0;
 	while (iter != tweets->end()) {

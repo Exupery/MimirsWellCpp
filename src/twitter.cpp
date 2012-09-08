@@ -21,17 +21,17 @@ Twitter::~Twitter() {
 
 }
 
-std::vector<Tweet> Twitter::search(const std::string &symbol) {
+std::set<Tweet> Twitter::search(const std::string &symbol) {
 	Parser parser;
 	std::string url = buildInitialSearchURL(symbol);
 	std::string results = curlRead(url);
-	std::vector<Tweet> tweets = parser.parseResults(results, symbol);
+	std::set<Tweet> tweets = parser.parseResults(results, symbol);
 	std::string next = parser.parseNextPage(results);
 	while (next.length() > 0) {
 		url = buildNextSearchURL(next);
 		results = curlRead(url);
-		std::vector<Tweet> nextTweets = parser.parseResults(results, symbol);
-		tweets.insert(tweets.end(), nextTweets.begin(), nextTweets.end());
+		std::set<Tweet> nextTweets = parser.parseResults(results, symbol);
+		tweets.insert(nextTweets.begin(), nextTweets.end());
 		next = parser.parseNextPage(results);
 	}
 
