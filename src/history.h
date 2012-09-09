@@ -12,6 +12,8 @@
 #define HISTORY_H_
 
 class History {
+private:
+	bool getHistory(const std::string & symbol);
 public:
 	History();
 	virtual ~History();
