@@ -42,12 +42,12 @@ std::string Twitter::buildInitialSearchURL(const std::string& symbol) {
 	DBHandler dbh;
 	std::stringstream strstream;
 	strstream << dbh.getMostRecentID(symbol.c_str());
-	std::string url = BASE_URL + std::string("?lang=en&rpp=100&q=%24") + symbol + std::string("&since_id=") + strstream.str();
+	std::string url = TWITTER_SEARCH_URL + std::string("?lang=en&rpp=100&q=%24") + symbol + std::string("&since_id=") + strstream.str();
 	return url;
 }
 
 std::string Twitter::buildNextSearchURL(const std::string& next) {
-	std::string url = BASE_URL + next;
+	std::string url = TWITTER_SEARCH_URL + next;
 	return url;
 }
 

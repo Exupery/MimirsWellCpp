@@ -9,8 +9,8 @@
 #include <string>
 #include "tweet.h"
 
-//#define BASE_URL "http://127.0.0.1/test.json"
-#define BASE_URL "http://search.twitter.com/search.json"
+//#define TWITTER_SEARCH_URL "http://127.0.0.1/test.json"
+#define TWITTER_SEARCH_URL "http://search.twitter.com/search.json"
 #ifndef TWITTER_H_
 #define TWITTER_H_
 

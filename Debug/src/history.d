@@ -1,3 +1,5 @@
-src/history.d: ../src/history.cpp ../src/history.h
+src/history.d: ../src/history.cpp ../src/curlio.h ../src/history.h
+
+../src/curlio.h:
 
 ../src/history.h:

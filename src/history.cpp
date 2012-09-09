@@ -5,8 +5,9 @@
  *      Author: frost
  */
 
+#include "curlio.h"
 #include "history.h"
-
+#include <iostream>
 History::History() {
 
 }
@@ -30,7 +31,11 @@ int History::updateHistoricalPrices(const std::set<std::string>& symbols) {
 }
 
 bool History::getHistory(const std::string& symbol) {
-
+	CurlIO curl;
+	std::string url = YAHOO_CSV_URL + symbol;
+	std::string results = curl.curlRead(url);
+	std::cout << results;	//DELME
+	//TODO: parse history
 	return true;
 }
 

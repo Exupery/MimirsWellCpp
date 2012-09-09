@@ -13,11 +13,12 @@
 #define CURLIO_H_
 
 class CurlIO {
+private:
+	static int curlWrite(char* data, size_t size, size_t len, std::string* buffer);
 public:
 	CurlIO();
 	virtual ~CurlIO();
 	std::string curlRead(const std::string& url);
-	static int curlWrite(char* data, size_t size, size_t len, std::string* buffer);
 };
 
 #endif /* CURLIO_H_ */
