@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/curlio.cpp \
 ../src/dbhandler.cpp \
 ../src/history.cpp \
 ../src/main.cpp \
@@ -12,6 +13,7 @@ CPP_SRCS += \
 ../src/twitter.cpp 
 
 OBJS += \
+./src/curlio.o \
 ./src/dbhandler.o \
 ./src/history.o \
 ./src/main.o \
@@ -20,6 +22,7 @@ OBJS += \
 ./src/twitter.o 
 
 CPP_DEPS += \
+./src/curlio.d \
 ./src/dbhandler.d \
 ./src/history.d \
 ./src/main.d \

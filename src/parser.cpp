@@ -41,8 +41,7 @@ std::string Parser::parseNextPage(const std::string& json) {
 std::set<Tweet> Parser::parseResults(const std::string& json, const std::string& symbol) {
 	std::set<Tweet> tweets;
 	json_error_t error;
-	json_t* root;
-	json_t* results;
+	json_t* root, * results;
 	//remove newlines for jansson
 	std::string str = json;
 	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
@@ -52,7 +51,7 @@ std::set<Tweet> Parser::parseResults(const std::string& json, const std::string&
 		results = json_object_get(root, "results");
 		if (results && json_is_array(results)) {
 			for (size_t i=0; i < json_array_size(results); i++) {
-				json_t * data, * createdAt, * userID, * id, * text;
+				json_t* data, * createdAt, * userID, * id, * text;
 				data = json_array_get(results, i);
 				if (json_is_object(data)) {
 					Tweet t(symbol);
