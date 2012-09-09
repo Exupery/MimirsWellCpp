@@ -20,13 +20,14 @@ Parser::~Parser() {
 
 }
 
-std::string Parser::parseNextPage(const std::string &json) {
+std::string Parser::parseNextPage(const std::string& json) {
 	json_error_t error;
-	json_t * root, * nextPage;
+	json_t* root;
+	json_t* nextPage;
 	std::string str = json;
 	std::string next = "";
 	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
-	char * source = (char *)str.c_str();
+	char* source = (char*)str.c_str();
 	root = json_loads(source, 0, &error);
 	if (root && json_is_object(root)) {
 		nextPage = json_object_get(root, "next_page");
@@ -37,14 +38,15 @@ std::string Parser::parseNextPage(const std::string &json) {
 	return next;
 }
 
-std::set<Tweet> Parser::parseResults(const std::string &json, const std::string &symbol) {
+std::set<Tweet> Parser::parseResults(const std::string& json, const std::string& symbol) {
 	std::set<Tweet> tweets;
 	json_error_t error;
-	json_t * root, * results;
+	json_t* root;
+	json_t* results;
 	//remove newlines for jansson
 	std::string str = json;
 	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
-	char * source = (char *)str.c_str();
+	char* source = (char*)str.c_str();
 	root = json_loads(source, 0, &error);
 	if (root && json_is_object(root)) {
 		results = json_object_get(root, "results");
@@ -88,10 +90,10 @@ std::set<Tweet> Parser::parseResults(const std::string &json, const std::string 
 	return tweets;
 }
 
-long Parser::getUNIXTime(const std::string &timestamp) {
+long Parser::getUNIXTime(const std::string& timestamp) {
 	long epoch;
 	struct tm tm;
-	char * buffer = (char *)timestamp.c_str();
+	char* buffer = (char*)timestamp.c_str();
 	if (strptime(buffer, "%a, %d %b %Y %H:%M:%S", &tm) != NULL) {
 		epoch = mktime(&tm);
 	} else {

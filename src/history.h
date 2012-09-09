@@ -13,11 +13,11 @@
 
 class History {
 private:
-	bool getHistory(const std::string & symbol);
+	bool getHistory(const std::string& symbol);
 public:
 	History();
 	virtual ~History();
-	int updateHistoricalPrices(std::set<std::string> * symbols);
+	int updateHistoricalPrices(const std::set<std::string>& symbols);
 };
 
 #endif /* HISTORY_H_ */

@@ -17,15 +17,15 @@ class DBHandler {
 private:
 	std::string host;
 	int port;
-	bool connect(mongo * db);
+	bool connect(mongo& db);
 	std::string getMongoDBError(int status);
-	bool writeDocs(const bson ** docs, const char * ns, int numDocs);
+	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	bool addTweets(std::set<Tweet> * tweets);
+	bool addTweets(const std::set<Tweet>& tweets);
 	std::set<Tweet> getTweets();
-	long getMostRecentID(const char * symbol);
+	long getMostRecentID(const char* symbol);
 };
 
 #endif /* DBHANDLER_H_ */

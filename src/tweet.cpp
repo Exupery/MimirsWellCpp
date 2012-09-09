@@ -7,7 +7,7 @@
 
 #include "tweet.h"
 
-Tweet::Tweet(const std::string &symbol) {
+Tweet::Tweet(const std::string& symbol) {
 	userID = 0;
 	id = 0;
 	postedAt = 0;
@@ -31,7 +31,7 @@ void Tweet::setPostedAt(long postedAt) {
 	this->postedAt = postedAt;
 }
 
-void Tweet::setText(std::string text) {
+void Tweet::setText(const char* text) {
 	this->text = text;
 }
 

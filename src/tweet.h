@@ -19,12 +19,12 @@ private:
 	std::string text;
 	std::string symbol;
 public:
-	Tweet(const std::string &symbol);
+	Tweet(const std::string& symbol);
 	virtual ~Tweet();
 	void setUserID(int userID);
 	void setID(long id);
 	void setPostedAt(long postedAt);
-	void setText(std::string text);
+	void setText(const char* text);
 	int getUserID();
 	long getID() const;
 	long getPostedAt();

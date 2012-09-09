@@ -15,11 +15,11 @@ History::~History() {
 
 }
 
-int History::updateHistoricalPrices(std::set<std::string> * symbols) {
+int History::updateHistoricalPrices(const std::set<std::string>& symbols) {
 	int fetched = 0;
 	std::set<std::string>::const_iterator iter;
-	iter = symbols->begin();
-	while (iter!= symbols->end()) {
+	iter = symbols.begin();
+	while (iter!= symbols.end()) {
 		std::string sym = *iter;
 		if (getHistory(sym)) {
 			fetched++;
@@ -29,7 +29,7 @@ int History::updateHistoricalPrices(std::set<std::string> * symbols) {
 	return fetched;
 }
 
-bool History::getHistory(const std::string & symbol) {
+bool History::getHistory(const std::string& symbol) {
 
 	return true;
 }

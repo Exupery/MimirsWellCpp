@@ -17,14 +17,14 @@ DBHandler::~DBHandler() {
 
 }
 
-bool DBHandler::addTweets(std::set<Tweet> * tweets) {
-	const bson ** tweetDocs = (const bson **)malloc(sizeof(bson *) * tweets->size());
+bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
+	const bson** tweetDocs = (const bson**)malloc(sizeof(bson*) * tweets.size());
 	std::set<Tweet>::const_iterator iter;
-	iter = tweets->begin();
+	iter = tweets.begin();
 	int i = 0;
-	while (iter != tweets->end()) {
+	while (iter != tweets.end()) {
 		Tweet t = *iter;
-		bson * b = (bson *)malloc(sizeof(bson));
+		bson* b = (bson*)malloc(sizeof(bson));
 		bson_init(b);
 		bson_append_int(b, "user_id", t.getUserID());
 		bson_append_long(b, "id", t.getID());
@@ -39,10 +39,10 @@ bool DBHandler::addTweets(std::set<Tweet> * tweets) {
 	return writeDocs(tweetDocs, TWEETS, i);
 }
 
-bool DBHandler::writeDocs(const bson ** docs, const char * ns, int numDocs) {
+bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {
 	bool writeSuccess = false;
 	mongo db;
-	if (connect(&db)) {
+	if (connect(db)) {
 		if (mongo_insert_batch(&db, ns, docs, numDocs, db.write_concern, 0) != MONGO_OK) {
 			std::cerr << "Unable to write to MongoDB" << std::endl;
 		} else {
@@ -54,10 +54,10 @@ bool DBHandler::writeDocs(const bson ** docs, const char * ns, int numDocs) {
 	return writeSuccess;
 }
 
-long DBHandler::getMostRecentID(const char * symbol) {
+long DBHandler::getMostRecentID(const char* symbol) {
 	long mostRecent = 0;
 	mongo db;
-	if (connect(&db)){
+	if (connect(db)){
 		mongo_cursor cursor;
 		mongo_cursor_init(&cursor, &db, TWEETS);
 
@@ -85,10 +85,10 @@ long DBHandler::getMostRecentID(const char * symbol) {
 	return mostRecent;
 }
 
-bool DBHandler::connect(mongo * db) {
-	int status = mongo_connect(db, host.c_str(), port);
+bool DBHandler::connect(mongo& db) {
+	int status = mongo_connect(&db, host.c_str(), port);
 	if (status != MONGO_OK) {
-		std::cerr << "Unable to connect to MONGODB\t" << getMongoDBError(db->err) << std::endl;
+		std::cerr << "Unable to connect to MONGODB\t" << getMongoDBError(db.err) << std::endl;
 		return false;
 	} else {
 		return true;

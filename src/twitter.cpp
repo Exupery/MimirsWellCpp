@@ -21,7 +21,7 @@ Twitter::~Twitter() {
 
 }
 
-std::set<Tweet> Twitter::search(const std::string &symbol) {
+std::set<Tweet> Twitter::search(const std::string& symbol) {
 	Parser parser;
 	std::string url = buildInitialSearchURL(symbol);
 	std::string results = curlRead(url);
@@ -38,7 +38,7 @@ std::set<Tweet> Twitter::search(const std::string &symbol) {
 	return tweets;
 }
 
-std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
+std::string Twitter::buildInitialSearchURL(const std::string& symbol) {
 	DBHandler dbh;
 	std::stringstream strstream;
 	strstream << dbh.getMostRecentID(symbol.c_str());
@@ -46,15 +46,15 @@ std::string Twitter::buildInitialSearchURL(const std::string &symbol) {
 	return url;
 }
 
-std::string Twitter::buildNextSearchURL(const std::string &next) {
+std::string Twitter::buildNextSearchURL(const std::string& next) {
 	std::string url = BASE_URL + next;
 	return url;
 }
 
-std::string Twitter::curlRead(const std::string &searchURL) {
-	CURL * curl;
+std::string Twitter::curlRead(const std::string& searchURL) {
+	CURL* curl;
 	std::string buffer;
-	const char * url = searchURL.c_str();
+	const char* url = searchURL.c_str();
 	curl = curl_easy_init();
 	if (curl) {
 		curl_easy_setopt(curl, CURLOPT_URL, url);
@@ -68,10 +68,10 @@ std::string Twitter::curlRead(const std::string &searchURL) {
 	return buffer;
 }
 
-int Twitter::curlWrite(char * data, size_t size, size_t len, std::string * buffer) {
+int Twitter::curlWrite(char* data, size_t size, size_t len, std::string& buffer) {
 	int result = 0;
-	if (buffer != NULL) {
-		buffer->append(data, size * len);
+	if (!buffer.empty()) {
+		buffer.append(data, size * len);
 		result = size * len;
 	}
 	return result;
