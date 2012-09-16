@@ -16,6 +16,7 @@
 class History {
 private:
 	bool getHistory(const std::string& symbol);
+	long getUNIXTime(const std::string& timestamp);
 public:
 	History();
 	virtual ~History();
