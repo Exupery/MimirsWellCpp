@@ -6,6 +6,7 @@
  */
 #include <set>
 #include <mongo.h>
+#include <map>
 #include "tweet.h"
 
 #define TWEETS "test.tweets"
@@ -23,6 +24,7 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
+	bool addHistory(const std::string& sym);
 	bool addTweets(const std::set<Tweet>& tweets);
 	std::set<Tweet> getTweets();
 	long getMostRecentID(const char* symbol);

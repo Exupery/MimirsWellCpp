@@ -85,6 +85,10 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	return mostRecent;
 }
 
+bool addHistory(const std::string& sym) {
+	return true;
+}
+
 bool DBHandler::connect(mongo& db) {
 	int status = mongo_connect(&db, host.c_str(), port);
 	if (status != MONGO_OK) {

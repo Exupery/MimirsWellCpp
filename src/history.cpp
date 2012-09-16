@@ -5,11 +5,12 @@
  *      Author: frost
  */
 
-#include "curlio.h"
-#include "history.h"
 #include <iostream>
+#include <map>
 #include <sstream>
-
+#include "curlio.h"
+#include "dbhandler.h"
+#include "history.h"
 
 History::History() {
 
@@ -39,16 +40,22 @@ bool History::getHistory(const std::string& symbol) {
 	std::string csv = curl.curlRead(url);
 	std::stringstream results(csv, std::stringstream::in);
 	std::string line;
+	DBHandler dbh;
+	std::map<long, double> prices;
 	while (std::getline(results, line)) {
 		//skip header line(s)
 		if (isdigit(line[0])) {
-			//std::cout << line;
 			size_t dateEnd = line.find_first_of(",");
 			long date = getUNIXTime(line.substr(0, dateEnd));
-
-
-			std::cout << line.substr(0, dateEnd) << "\t" << date << std::endl;	//DELME
+			size_t priceStart = line.find_last_of(",") + 1;
+			double price = atof(line.substr(priceStart, std::string::npos).c_str());
+			prices.insert(std::make_pair(date, price));
+			std::cout << line.substr(0, dateEnd) << "\t" << date << "\t" << price << std::endl;	//DELME
 		}
+	}
+
+	if (prices.size() > 0) {
+
 	}
 	return true;
 }
