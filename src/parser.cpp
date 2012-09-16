@@ -26,6 +26,7 @@ std::string Parser::parseNextPage(const std::string& json) {
 	json_t* nextPage;
 	std::string str = json;
 	std::string next = "";
+	//remove newlines for jansson
 	str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
 	char* source = (char*)str.c_str();
 	root = json_loads(source, 0, &error);

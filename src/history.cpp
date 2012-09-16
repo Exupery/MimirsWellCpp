@@ -8,6 +8,8 @@
 #include "curlio.h"
 #include "history.h"
 #include <iostream>
+#include <sstream>
+
 History::History() {
 
 }
@@ -33,9 +35,15 @@ int History::updateHistoricalPrices(const std::set<std::string>& symbols) {
 bool History::getHistory(const std::string& symbol) {
 	CurlIO curl;
 	std::string url = YAHOO_CSV_URL + symbol;
-	std::string results = curl.curlRead(url);
-	std::cout << results;	//DELME
+	std::string csv = curl.curlRead(url);
+	std::stringstream results(csv, std::stringstream::in);
+
+	//std::cout << results;	//DELME
 	//TODO: parse history
+	std::string line;
+	while (std::getline(results, line)) {
+		std::cout << line << std::endl;
+	}
 	return true;
 }
 
