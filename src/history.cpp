@@ -50,14 +50,14 @@ bool History::getHistory(const std::string& symbol) {
 			size_t priceStart = line.find_last_of(",") + 1;
 			double price = atof(line.substr(priceStart, std::string::npos).c_str());
 			prices.insert(std::make_pair(date, price));
-			std::cout << line.substr(0, dateEnd) << "\t" << date << "\t" << price << std::endl;	//DELME
 		}
 	}
 
 	if (prices.size() > 0) {
-
+		return dbh.addHistory(prices);
+	} else {
+		return false;
 	}
-	return true;
 }
 
 long History::getUNIXTime(const std::string& date) {

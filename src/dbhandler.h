@@ -24,7 +24,7 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	bool addHistory(const std::string& sym);
+	bool addHistory(const std::map<long, double>& prices);
 	bool addTweets(const std::set<Tweet>& tweets);
 	std::set<Tweet> getTweets();
 	long getMostRecentID(const char* symbol);

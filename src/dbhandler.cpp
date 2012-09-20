@@ -39,6 +39,16 @@ bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
 	return writeDocs(tweetDocs, TWEETS, i);
 }
 
+
+bool DBHandler::addHistory(const std::map<long, double>& prices) {
+	std::map<long, double>::const_iterator iter;
+	for (iter = prices.begin(); iter != prices.end(); iter++) {
+		std::cout << iter->first << "\t" << iter->second << std::endl;	//DELME
+	}
+
+	return true;
+}
+
 bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {
 	bool writeSuccess = false;
 	mongo db;
@@ -83,10 +93,6 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	}
 	mongo_destroy(&db);
 	return mostRecent;
-}
-
-bool addHistory(const std::string& sym) {
-	return true;
 }
 
 bool DBHandler::connect(mongo& db) {
