@@ -20,9 +20,8 @@ DBHandler::~DBHandler() {
 bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
 	const bson** tweetDocs = (const bson**)malloc(sizeof(bson*) * tweets.size());
 	std::set<Tweet>::const_iterator iter;
-	iter = tweets.begin();
 	int i = 0;
-	while (iter != tweets.end()) {
+	for (iter = tweets.begin(); iter != tweets.end(); iter++) {
 		Tweet t = *iter;
 		bson* b = (bson*)malloc(sizeof(bson));
 		bson_init(b);
@@ -33,7 +32,6 @@ bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
 		bson_append_string(b, "sym", t.getSymbol().c_str());
 		bson_finish(b);
 		tweetDocs[i++] = b;
-		iter++;
 	}
 
 	return writeDocs(tweetDocs, TWEETS, i);
@@ -41,12 +39,19 @@ bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
 
 
 bool DBHandler::addHistory(const std::map<long, double>& prices) {
+	const bson** histDocs = (const bson**)malloc(sizeof(bson*) * prices.size());
 	std::map<long, double>::const_iterator iter;
+	int i = 0;
 	for (iter = prices.begin(); iter != prices.end(); iter++) {
-		std::cout << iter->first << "\t" << iter->second << std::endl;	//DELME
+		bson* b = (bson*)malloc(sizeof(bson));
+		bson_init(b);
+		bson_append_long(b, "timestamp", iter->first);
+		bson_append_double(b, "close", iter->second);
+		bson_finish(b);
+		histDocs[i++] = b;
 	}
 
-	return true;
+	return writeDocs(histDocs, PRICE_HISTORY, i);
 }
 
 bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {

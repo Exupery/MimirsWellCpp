@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
 	std::cout << std::left << std::setw(12) << "begin test" << start << std::endl;	//DELME
 	std::set<std::string> symbols = getSymbols(argc, argv);
 	std::cout << std::setw(12) << "Symbols:" << symbols.size() << std::endl;
-//	int total = getTweets(symbols);
-//	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
+	int total = getTweets(symbols);
+	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
 	std::cout << "Retreiving historical price data...";
 	History h;
 	int fetched = h.updateHistoricalPrices(symbols);

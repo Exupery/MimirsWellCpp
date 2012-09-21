@@ -10,6 +10,7 @@
 #include "tweet.h"
 
 #define TWEETS "test.tweets"
+#define PRICE_HISTORY "test.price_history"
 
 #ifndef DBHANDLER_H_
 #define DBHANDLER_H_
