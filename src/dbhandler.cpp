@@ -38,13 +38,14 @@ bool DBHandler::addTweets(const std::set<Tweet>& tweets) {
 }
 
 
-bool DBHandler::addHistory(const std::map<long, double>& prices) {
+bool DBHandler::addHistory(const std::map<long, double>& prices, const char* symbol) {
 	const bson** histDocs = (const bson**)malloc(sizeof(bson*) * prices.size());
 	std::map<long, double>::const_iterator iter;
 	int i = 0;
 	for (iter = prices.begin(); iter != prices.end(); iter++) {
 		bson* b = (bson*)malloc(sizeof(bson));
 		bson_init(b);
+		bson_append_string(b, "sym", symbol);
 		bson_append_long(b, "timestamp", iter->first);
 		bson_append_double(b, "close", iter->second);
 		bson_finish(b);

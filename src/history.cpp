@@ -54,7 +54,7 @@ bool History::getHistory(const std::string& symbol) {
 	}
 
 	if (prices.size() > 0) {
-		return dbh.addHistory(prices);
+		return dbh.addHistory(prices, symbol.c_str());
 	} else {
 		return false;
 	}

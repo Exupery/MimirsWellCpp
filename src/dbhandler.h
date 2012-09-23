@@ -11,6 +11,8 @@
 
 #define TWEETS "test.tweets"
 #define PRICE_HISTORY "test.price_history"
+//#define TWEETS "mimirswell.tweets"
+//#define PRICE_HISTORY "mimirswell.price_history"
 
 #ifndef DBHANDLER_H_
 #define DBHANDLER_H_
@@ -25,7 +27,7 @@ private:
 public:
 	DBHandler();
 	virtual ~DBHandler();
-	bool addHistory(const std::map<long, double>& prices);
+	bool addHistory(const std::map<long, double>& prices, const char* symbol);
 	bool addTweets(const std::set<Tweet>& tweets);
 	std::set<Tweet> getTweets();
 	long getMostRecentID(const char* symbol);
