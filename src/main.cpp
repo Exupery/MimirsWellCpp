@@ -28,15 +28,15 @@ void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symb
 int main(int argc, char* argv[]) {
 	time_t start = time(0);
 	std::cout << std::left << std::setw(12) << "begin test" << start << std::endl;	//DELME
-	std::set<std::string> symbols = getSymbols(argc, argv);
-	std::cout << std::setw(12) << "Symbols:" << symbols.size() << std::endl;
-	int total = getTweets(symbols);
-	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
-	std::cout << "Retreiving historical price data...";
-	History h;
-	int fetched = h.updateHistoricalPrices(symbols);
-	std::cout << "...complete" << std::endl;
-	std::cout << "Obtained historical prices for " << fetched << " symbols" << std::endl;
+//	std::set<std::string> symbols = getSymbols(argc, argv);
+//	std::cout << std::setw(12) << "Symbols:" << symbols.size() << std::endl;
+//	int total = getTweets(symbols);
+//	std::cout << std::setw(12) << "Tweets:" << total << std::endl;
+//	std::cout << "Retreiving historical price data...";
+//	History h;
+//	int fetched = h.updateHistoricalPrices(symbols);
+//	std::cout << "...complete" << std::endl;
+//	std::cout << "Obtained historical prices for " << fetched << " symbols" << std::endl;
 
 	std::cout << std::setw(12) << "complete" << time(0) << "\t" << time(0)-start << "s" << std::endl;	//DELME
 	return 0;
@@ -75,6 +75,15 @@ void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symb
 		}
 		symbols.insert(syms[i]);
 	}
+}
+
+int buildLexicon() {
+	int words = 0;
+	//iterate through all tweets
+	//parse words
+	//add word (class) to set if not present
+	//for each tweet add sym and timestamp
+	return words;
 }
 
 int getTweets(std::set<std::string>& symbols) {
