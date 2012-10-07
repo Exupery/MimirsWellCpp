@@ -24,6 +24,7 @@ std::set<std::string> getSymbols(int length, char* params[]);
 int getTweets(std::set<std::string>& symbols);
 void parseFromFile(std::string filename, std::set<std::string>& symbols);
 void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symbols);
+int buildLexicon();
 
 int main(int argc, char* argv[]) {
 	time_t start = time(0);
@@ -37,6 +38,10 @@ int main(int argc, char* argv[]) {
 //	int fetched = h.updateHistoricalPrices(symbols);
 //	std::cout << "...complete" << std::endl;
 //	std::cout << "Obtained historical prices for " << fetched << " symbols" << std::endl;
+
+	std::cout << "Adding new words to lexicon" << std::endl;
+	int wordCount = buildLexicon();
+	std::cout << "Added " << wordCount << " unique words" << std::endl;
 
 	std::cout << std::setw(12) << "complete" << time(0) << "\t" << time(0)-start << "s" << std::endl;	//DELME
 	return 0;
@@ -78,12 +83,14 @@ void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symb
 }
 
 int buildLexicon() {
-	int words = 0;
+	int wordCount = 0;
+	DBHandler dbh;
 	//iterate through all tweets
+	std::set<std::string> words = dbh.getWords();
 	//parse words
 	//add word (class) to set if not present
-	//for each tweet add sym and timestamp
-	return words;
+	//for each word add sym and timestamp
+	return wordCount;
 }
 
 int getTweets(std::set<std::string>& symbols) {

@@ -101,6 +101,40 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	return mostRecent;
 }
 
+std::set<std::string> DBHandler::getWords() {
+	std::set<std::string> words;
+	long sinceTime = getLastLexiconUpdate();
+	std::cout << sinceTime << std::endl;
+	return words;
+}
+
+long DBHandler::getLastLexiconUpdate() {
+	long lastUpdate = 0;
+	mongo db;
+	if (connect(db)) {
+		mongo_cursor cursor;
+		mongo_cursor_init(&cursor, &db, LEXICON);
+		bson query;
+		bson_init(&query);
+		bson_append_start_object(&query, "$query");
+		bson_append_bool(&query, "last_update", 1);
+		bson_append_finish_object(&query);
+		bson_finish(&query);
+
+		mongo_cursor_set_query(&cursor, &query);
+		cursor.limit = 1;
+		while (mongo_cursor_next(&cursor) == MONGO_OK) {
+			bson_iterator iter;
+			if (bson_find(&iter, mongo_cursor_bson(&cursor), "last_update")) {
+				lastUpdate = bson_iterator_long(&iter);
+			}
+		}
+		mongo_cursor_destroy(&cursor);
+	}
+	mongo_destroy(&db);
+	return lastUpdate;
+}
+
 bool DBHandler::connect(mongo& db) {
 	int status = mongo_connect(&db, host.c_str(), port);
 	if (status != MONGO_OK) {
