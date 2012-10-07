@@ -104,8 +104,35 @@ long DBHandler::getMostRecentID(const char* symbol) {
 std::set<std::string> DBHandler::getWords() {
 	std::set<std::string> words;
 	long sinceTime = getLastLexiconUpdate();
-	std::cout << sinceTime << std::endl;
+	std::set<Tweet> tweets = getTweetsSince(sinceTime);
 	return words;
+}
+
+std::set<Tweet> DBHandler::getTweetsSince(long sinceTime) {
+	std::set<Tweet> tweets;
+	mongo db;
+		if (connect(db)) {
+			mongo_cursor cursor;
+			mongo_cursor_init(&cursor, &db, TWEETS);
+			bson query;
+			bson_init(&query);
+			bson_append_start_object(&query, "posted_at");
+			bson_append_long(&query, "$gt", sinceTime);
+			bson_append_finish_object(&query);
+			bson_finish(&query);
+
+			mongo_cursor_set_query(&cursor, &query);
+			while (mongo_cursor_next(&cursor) == MONGO_OK) {
+				bson_iterator iter;
+				if (bson_find(&iter, mongo_cursor_bson(&cursor), "text")) {
+					//std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
+				}
+			}
+//			std::cout << cursor.seen << "\t" << std::endl;	//DELME
+			mongo_cursor_destroy(&cursor);
+		}
+		mongo_destroy(&db);
+	return tweets;
 }
 
 long DBHandler::getLastLexiconUpdate() {
