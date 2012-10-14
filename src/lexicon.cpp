@@ -7,7 +7,7 @@
 #include <iostream>	//DELME
 #include <string>
 #include <sstream>
-//#include <vector>
+#include <algorithm>
 #include "lexicon.h"
 
 Lexicon::Lexicon() {
@@ -20,11 +20,20 @@ Lexicon::~Lexicon() {
 }
 
 void Lexicon::addWord(std::string& word) {
-	std::cout << word << std::endl;	//DELME
-	//TODO: ignore urls
-	//TODO: strip puncuation $ #
-	//TODO: set min length >= 2
-	//TODO: lowercase
+	const char* old = word.c_str();	//DELME
+
+	bool isValid = true;
+	std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+	if (word.substr(0, 7).compare("http://") == 0 || word.substr(0, 8).compare("https://") == 0) {
+		isValid = false;
+	} else if (word.length() < 2) {
+		isValid = false;
+	}
+	//TODO: strip non alphanumeric
+
+	if (isValid) {
+		std::cout << old << "\t\t" << word << std::endl;	//DELME
+	}
 
 	words.insert(word);
 }
