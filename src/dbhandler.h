@@ -27,7 +27,7 @@ private:
 	std::string getMongoDBError(int status);
 	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 	long getLastLexiconUpdate();
-	std::set<Tweet> getTweetsSince(long sinceTime);
+	std::set<std::string> parseTweets(long sinceTime);
 public:
 	DBHandler();
 	virtual ~DBHandler();

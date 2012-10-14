@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "dbhandler.h"
+#include "lexicon.h"
 
 DBHandler::DBHandler() {
 	host = "127.0.0.1";
@@ -102,15 +103,13 @@ long DBHandler::getMostRecentID(const char* symbol) {
 }
 
 std::set<std::string> DBHandler::getWords() {
-	std::set<std::string> words;
 	long sinceTime = getLastLexiconUpdate();
-	std::set<Tweet> tweets = getTweetsSince(sinceTime);
-	return words;
+	return parseTweets(sinceTime);
 }
 
-std::set<Tweet> DBHandler::getTweetsSince(long sinceTime) {
-	std::set<Tweet> tweets;
+std::set<std::string> DBHandler::parseTweets(long sinceTime) {
 	mongo db;
+	Lexicon lex;
 		if (connect(db)) {
 			mongo_cursor cursor;
 			mongo_cursor_init(&cursor, &db, TWEETS);
@@ -120,19 +119,20 @@ std::set<Tweet> DBHandler::getTweetsSince(long sinceTime) {
 			bson_append_long(&query, "$gt", sinceTime);
 			bson_append_finish_object(&query);
 			bson_finish(&query);
-
+			cursor.limit = 10;				//DELME
 			mongo_cursor_set_query(&cursor, &query);
 			while (mongo_cursor_next(&cursor) == MONGO_OK) {
 				bson_iterator iter;
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "text")) {
-					//std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
+//					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
+					lex.parseTweet(bson_iterator_string(&iter));
 				}
 			}
 //			std::cout << cursor.seen << "\t" << std::endl;	//DELME
 			mongo_cursor_destroy(&cursor);
 		}
 		mongo_destroy(&db);
-	return tweets;
+	return lex.getWords();
 }
 
 long DBHandler::getLastLexiconUpdate() {
