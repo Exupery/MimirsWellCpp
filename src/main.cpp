@@ -85,11 +85,9 @@ void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symb
 int buildLexicon() {
 	int wordCount = 0;
 	DBHandler dbh;
-	//iterate through all tweets
-	std::set<std::string> words = dbh.getWords();
-	//parse words
-	//add word (class) to set if not present
-	//for each word add sym and timestamp
+
+	std::set<std::string> words = dbh.addWords();
+
 	return wordCount;
 }
 

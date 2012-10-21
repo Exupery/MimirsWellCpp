@@ -21,7 +21,6 @@ Lexicon::~Lexicon() {
 }
 
 void Lexicon::addWord(std::string& word) {
-	const char* old = word.c_str();	//DELME
 	std::locale loc;
 
 	bool isValid = true;
@@ -29,21 +28,16 @@ void Lexicon::addWord(std::string& word) {
 	if (word.substr(0, 7).compare("http://") == 0 || word.substr(0, 8).compare("https://") == 0) {
 		isValid = false;
 	}
-	//TODO: strip non alphanumeric
-	if (isValid) {
-	std::cout << old << "\t\t";		//DELME
+
 	word.erase(std::remove_if(word.begin(), word.end(), isNotAlpha), word.end());
-	std::cout << word << std::endl;	//DELME
-	}
+
 	if (word.length() < 2) {
 		isValid = false;
 	}
 
-//	if (isValid) {
-//		std::cout << old << "\t\t" << word << std::endl;	//DELME
-//	}
-
-	words.insert(word);
+	if (isValid) {
+		words.insert(word);
+	}
 }
 
 bool Lexicon::isNotAlpha(char c) {
@@ -52,7 +46,7 @@ bool Lexicon::isNotAlpha(char c) {
 
 int Lexicon::parseTweet(const std::string& tweet) {
 	int sizeBefore = words.size();
-//	std::cout << tweet << std::endl;	//DELME
+//	std::cout << tweet << std::endl;		//DELME
 	std::string buffer;
 	std::stringstream ss(tweet);
 
@@ -63,7 +57,9 @@ int Lexicon::parseTweet(const std::string& tweet) {
 //		std::cout << buffer << std::endl;	//DELME
 		addWord(buffer);
 	}
-
+	std::cout << words.size() << std::endl;	//DELME
+	//TODO: add word (class) to set if not present
+	//TODO: for each word add sym and timestamp
 	return words.size() - sizeBefore;
 }
 

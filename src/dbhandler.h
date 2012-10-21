@@ -35,7 +35,7 @@ public:
 	bool addTweets(const std::set<Tweet>& tweets);
 	long getMostRecentID(const char* symbol);
 	std::set<Tweet> getTweets();
-	std::set<std::string> getWords();
+	std::set<std::string> addWords();
 };
 
 #endif /* DBHANDLER_H_ */

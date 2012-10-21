@@ -102,7 +102,7 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	return mostRecent;
 }
 
-std::set<std::string> DBHandler::getWords() {
+std::set<std::string> DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
 	return parseTweets(sinceTime);
 }
