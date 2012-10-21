@@ -5,6 +5,7 @@
  *      Author: frost
  */
 #include <iostream>	//DELME
+#include <locale>
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -21,21 +22,32 @@ Lexicon::~Lexicon() {
 
 void Lexicon::addWord(std::string& word) {
 	const char* old = word.c_str();	//DELME
+	std::locale loc;
 
 	bool isValid = true;
 	std::transform(word.begin(), word.end(), word.begin(), ::tolower);
 	if (word.substr(0, 7).compare("http://") == 0 || word.substr(0, 8).compare("https://") == 0) {
 		isValid = false;
-	} else if (word.length() < 2) {
-		isValid = false;
 	}
 	//TODO: strip non alphanumeric
-
 	if (isValid) {
-		std::cout << old << "\t\t" << word << std::endl;	//DELME
+	std::cout << old << "\t\t";		//DELME
+	word.erase(std::remove_if(word.begin(), word.end(), isNotAlpha), word.end());
+	std::cout << word << std::endl;	//DELME
+	}
+	if (word.length() < 2) {
+		isValid = false;
 	}
 
+//	if (isValid) {
+//		std::cout << old << "\t\t" << word << std::endl;	//DELME
+//	}
+
 	words.insert(word);
+}
+
+bool Lexicon::isNotAlpha(char c) {
+	return !(std::isalpha(c));
 }
 
 int Lexicon::parseTweet(const std::string& tweet) {

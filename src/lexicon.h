@@ -14,6 +14,7 @@ class Lexicon {
 private:
 	std::set<std::string> words;
 	void addWord(std::string& word);
+	static bool isNotAlpha(char c);
 public:
 	Lexicon();
 	virtual ~Lexicon();
