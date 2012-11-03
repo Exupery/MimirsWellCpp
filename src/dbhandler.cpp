@@ -110,6 +110,7 @@ std::set<std::string> DBHandler::addWords() {
 std::set<std::string> DBHandler::parseTweets(long sinceTime) {
 	mongo db;
 	Lexicon lex;
+	std::set<std::string> words; //TODO: change to set of Word once class is created
 		if (connect(db)) {
 			mongo_cursor cursor;
 			mongo_cursor_init(&cursor, &db, TWEETS);
@@ -125,14 +126,31 @@ std::set<std::string> DBHandler::parseTweets(long sinceTime) {
 				bson_iterator iter;
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "text")) {
 //					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
-					lex.parseTweet(bson_iterator_string(&iter));
+					std::set<std::string> words = lex.parseTweet(bson_iterator_string(&iter));
+				} else {
+					continue;
 				}
+
+				if (bson_find(&iter, mongo_cursor_bson(&cursor), "sym")) {
+					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
+				} else {
+					continue;
+				}
+
+				if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
+					std::cout << bson_iterator_long(&iter) << std::endl;	//DELME
+				} else {
+					continue;
+				}
+
+				//TODO: get sym/timestamp for each word into lexicon collection
+
 			}
 //			std::cout << cursor.seen << "\t" << std::endl;	//DELME
 			mongo_cursor_destroy(&cursor);
 		}
 		mongo_destroy(&db);
-	return lex.getWords();
+	return words;
 }
 
 long DBHandler::getLastLexiconUpdate() {

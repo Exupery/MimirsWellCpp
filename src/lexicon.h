@@ -12,14 +12,12 @@
 
 class Lexicon {
 private:
-	std::set<std::string> words;
-	void addWord(std::string& word);
+	void addWord(std::set<std::string>& words, std::string& word);
 	static bool isNotAlpha(char c);
 public:
 	Lexicon();
 	virtual ~Lexicon();
-	int parseTweet(const std::string& tweet);
-	std::set<std::string> getWords();
+	std::set<std::string> parseTweet(const std::string& tweet);
 };
 
 #endif /* LEXICON_H_ */

@@ -20,7 +20,7 @@ Lexicon::~Lexicon() {
 
 }
 
-void Lexicon::addWord(std::string& word) {
+void Lexicon::addWord(std::set<std::string>& words, std::string& word) {
 	std::locale loc;
 
 	bool isValid = true;
@@ -44,25 +44,16 @@ bool Lexicon::isNotAlpha(char c) {
 	return !(std::isalpha(c));
 }
 
-int Lexicon::parseTweet(const std::string& tweet) {
-	int sizeBefore = words.size();
-//	std::cout << tweet << std::endl;		//DELME
+std::set<std::string> Lexicon::parseTweet(const std::string& tweet) {
+	std::set<std::string> words;
 	std::string buffer;
 	std::stringstream ss(tweet);
 
-//	std::vector<std::string> tokens;
-
 	while (ss >> buffer) {
-//		tokens.push_back(buffer);
-//		std::cout << buffer << std::endl;	//DELME
-		addWord(buffer);
+		addWord(words, buffer);
 	}
 	std::cout << words.size() << std::endl;	//DELME
-	//TODO: add word (class) to set if not present
-	//TODO: for each word add sym and timestamp
-	return words.size() - sizeBefore;
-}
 
-std::set<std::string> Lexicon::getWords() {
 	return words;
 }
+
