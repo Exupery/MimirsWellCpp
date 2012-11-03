@@ -11,7 +11,8 @@ CPP_SRCS += \
 ../src/main.cpp \
 ../src/parser.cpp \
 ../src/tweet.cpp \
-../src/twitter.cpp 
+../src/twitter.cpp \
+../src/word.cpp 
 
 OBJS += \
 ./src/curlio.o \
@@ -21,7 +22,8 @@ OBJS += \
 ./src/main.o \
 ./src/parser.o \
 ./src/tweet.o \
-./src/twitter.o 
+./src/twitter.o \
+./src/word.o 
 
 CPP_DEPS += \
 ./src/curlio.d \
@@ -31,7 +33,8 @@ CPP_DEPS += \
 ./src/main.d \
 ./src/parser.d \
 ./src/tweet.d \
-./src/twitter.d 
+./src/twitter.d \
+./src/word.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

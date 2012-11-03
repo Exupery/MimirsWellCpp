@@ -83,10 +83,8 @@ void parseFromArgs(int start, int end, char* syms[], std::set<std::string>& symb
 }
 
 int buildLexicon() {
-	int wordCount = 0;
 	DBHandler dbh;
-
-	std::set<std::string> words = dbh.addWords();
+	int wordCount = dbh.addWords();
 
 	return wordCount;
 }

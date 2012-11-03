@@ -102,15 +102,15 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	return mostRecent;
 }
 
-std::set<std::string> DBHandler::addWords() {
+int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
-	return parseTweets(sinceTime);
+	return parseTweets(sinceTime).size();
 }
 
-std::set<std::string> DBHandler::parseTweets(long sinceTime) {
+std::set<Word> DBHandler::parseTweets(long sinceTime) {
 	mongo db;
 	Lexicon lex;
-	std::set<std::string> words; //TODO: change to set of Word once class is created
+	std::set<Word> words; //TODO: change to set of Word once class is created
 		if (connect(db)) {
 			mongo_cursor cursor;
 			mongo_cursor_init(&cursor, &db, TWEETS);
@@ -126,7 +126,7 @@ std::set<std::string> DBHandler::parseTweets(long sinceTime) {
 				bson_iterator iter;
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "text")) {
 //					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
-					std::set<std::string> words = lex.parseTweet(bson_iterator_string(&iter));
+					std::set<std::string> wordsInTweet = lex.parseTweet(bson_iterator_string(&iter));
 				} else {
 					continue;
 				}

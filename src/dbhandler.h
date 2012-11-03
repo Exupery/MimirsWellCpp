@@ -8,6 +8,7 @@
 #include <mongo.h>
 #include <map>
 #include "tweet.h"
+#include "word.h"
 
 #define TWEETS "test.tweets"
 #define PRICE_HISTORY "test.price_history"
@@ -27,7 +28,7 @@ private:
 	std::string getMongoDBError(int status);
 	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 	long getLastLexiconUpdate();
-	std::set<std::string> parseTweets(long sinceTime);
+	std::set<Word> parseTweets(long sinceTime);
 public:
 	DBHandler();
 	virtual ~DBHandler();
@@ -35,7 +36,7 @@ public:
 	bool addTweets(const std::set<Tweet>& tweets);
 	long getMostRecentID(const char* symbol);
 	std::set<Tweet> getTweets();
-	std::set<std::string> addWords();
+	int addWords();
 };
 
 #endif /* DBHANDLER_H_ */
