@@ -104,7 +104,9 @@ long DBHandler::getMostRecentID(const char* symbol) {
 
 int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
-	return parseTweets(sinceTime).size();
+	std::set<Word> words = parseTweets(sinceTime);
+	//TODO: add to lexicon collection
+	return words.size();
 }
 
 std::set<Word> DBHandler::parseTweets(long sinceTime) {
@@ -132,21 +134,23 @@ std::set<Word> DBHandler::parseTweets(long sinceTime) {
 				}
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "sym")) {
-					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
+					std::string sym = bson_iterator_string(&iter);
+					std::cout << sym << std::endl;	//DELME
 				} else {
 					continue;
 				}
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
-					std::cout << bson_iterator_long(&iter) << std::endl;	//DELME
+					long timestamp = bson_iterator_long(&iter);
+					std::cout << timestamp << std::endl;	//DELME
 				} else {
 					continue;
 				}
 
-				//TODO: get sym/timestamp for each word into lexicon collection
+				//TODO: add sym/timestamp for each Word
+
 
 			}
-//			std::cout << cursor.seen << "\t" << std::endl;	//DELME
 			mongo_cursor_destroy(&cursor);
 		}
 		mongo_destroy(&db);
