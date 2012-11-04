@@ -7,12 +7,33 @@
 
 #include "word.h"
 
-Word::Word() {
-	// TODO Auto-generated constructor stub
-
+Word::Word(std::string word) {
+	this->word = word;
+	timestamp = 0L;
+	symbol = "";
 }
 
 Word::~Word() {
-	// TODO Auto-generated destructor stub
+
+}
+
+std::string Word::getWord(){
+	return word;
+}
+
+std::string Word::getSymbol() {
+	return symbol;
+}
+
+long Word::getTimestamp() {
+	return timestamp;
+}
+
+void Word::setSymbol(std::string symbol) {
+	this->symbol = symbol;
+}
+
+void Word::setTimestamp(long timestamp) {
+	this->timestamp = timestamp;
 }
 
