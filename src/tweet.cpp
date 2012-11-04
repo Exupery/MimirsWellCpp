@@ -7,12 +7,11 @@
 
 #include "tweet.h"
 
-Tweet::Tweet(const std::string& symbol) {
+Tweet::Tweet(const std::string& symbol) : symbol(symbol) {
 	userID = 0;
 	id = 0;
 	postedAt = 0;
 	text = "";
-	this->symbol = symbol;
 }
 
 Tweet::~Tweet() {

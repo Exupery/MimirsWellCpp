@@ -13,7 +13,6 @@
 
 Lexicon::Lexicon() {
 
-
 }
 
 Lexicon::~Lexicon() {

@@ -7,8 +7,7 @@
 
 #include "word.h"
 
-Word::Word(std::string word) {
-	this->word = word;
+Word::Word(std::string word) : word(word) {
 	timestamp = 0L;
 	symbol = "";
 }
