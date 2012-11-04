@@ -16,7 +16,7 @@ Word::~Word() {
 
 }
 
-std::string Word::getWord(){
+std::string Word::getWord() const {
 	return word;
 }
 
@@ -34,5 +34,9 @@ void Word::setSymbol(std::string symbol) {
 
 void Word::setTimestamp(long timestamp) {
 	this->timestamp = timestamp;
+}
+
+bool operator<(const Word& a, const Word& b) {
+	return (a.getWord() < b.getWord());
 }
 

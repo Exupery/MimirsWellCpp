@@ -11,7 +11,7 @@
 #define TWEET_H_
 
 class Tweet {
-friend bool operator<(const Tweet& a, const Tweet& b);
+	friend bool operator<(const Tweet& a, const Tweet& b);
 private:
 	int userID;
 	long id;

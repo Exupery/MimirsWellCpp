@@ -11,6 +11,7 @@
 #define WORD_H_
 
 class Word {
+	friend bool operator<(const Word& a, const Word& b);
 private:
 	std::string word;
 	std::string symbol;
@@ -18,7 +19,7 @@ private:
 public:
 	Word(std::string word);
 	virtual ~Word();
-	std::string getWord();
+	std::string getWord() const;
 	std::string getSymbol();
 	void setSymbol(std::string symbol);
 	long getTimestamp();

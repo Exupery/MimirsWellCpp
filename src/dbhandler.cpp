@@ -112,7 +112,7 @@ int DBHandler::addWords() {
 std::set<Word> DBHandler::parseTweets(long sinceTime) {
 	mongo db;
 	Lexicon lex;
-	std::set<Word> words; //TODO: change to set of Word once class is created
+	std::set<Word> words;
 		if (connect(db)) {
 			mongo_cursor cursor;
 			mongo_cursor_init(&cursor, &db, TWEETS);
@@ -157,6 +157,7 @@ std::set<Word> DBHandler::parseTweets(long sinceTime) {
 					Word word = Word(*w);
 					word.setSymbol(sym);
 					word.setTimestamp(timestamp);
+					words.insert(word);
 					w++;
 				}
 
