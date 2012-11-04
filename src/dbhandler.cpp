@@ -154,7 +154,7 @@ std::set<Word> DBHandler::parseTweets(long sinceTime) {
 				std::set<std::string>::const_iterator w = wordsInTweet.begin();
 				while (w != wordsInTweet.end()) {
 					std::cout << *w << std::endl;		//DELME
-					Word word = Word(*w);
+					Word word(*w);
 					word.setSymbol(sym);
 					word.setTimestamp(timestamp);
 					words.insert(word);
