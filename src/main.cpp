@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "Adding new words to lexicon" << std::endl;
 	int wordCount = buildLexicon();
-	std::cout << "Added " << wordCount << " unique words" << std::endl;
+	std::cout << "Added " << wordCount << " word entries" << std::endl;
 
 	std::cout << std::setw(12) << "complete" << time(0) << "\t" << time(0)-start << "s" << std::endl;	//DELME
 	return 0;

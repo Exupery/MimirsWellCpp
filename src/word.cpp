@@ -36,7 +36,3 @@ void Word::setTimestamp(long timestamp) {
 	this->timestamp = timestamp;
 }
 
-bool operator<(const Word& a, const Word& b) {
-	return (a.getWord() < b.getWord());
-}
-

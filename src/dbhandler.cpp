@@ -104,9 +104,9 @@ long DBHandler::getMostRecentID(const char* symbol) {
 
 int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
-	std::set<Word> words = parseTweets(sinceTime);
+	std::vector<Word> words = parseTweets(sinceTime);
 	//TODO: add to lexicon collection
-	std::set<Word>::const_iterator iter;
+	std::vector<Word>::const_iterator iter;
 	for (iter=words.begin(); iter!=words.end(); iter++) {
 		Word w = *iter;
 		std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;
@@ -114,10 +114,10 @@ int DBHandler::addWords() {
 	return words.size();
 }
 
-std::set<Word> DBHandler::parseTweets(long sinceTime) {
+std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 	mongo db;
 	Lexicon lex;
-	std::set<Word> words;
+	std::vector<Word> words;
 		if (connect(db)) {
 			mongo_cursor cursor;
 			mongo_cursor_init(&cursor, &db, TWEETS);
@@ -162,7 +162,8 @@ std::set<Word> DBHandler::parseTweets(long sinceTime) {
 					Word word(*w);
 					word.setSymbol(sym);
 					word.setTimestamp(timestamp);
-					words.insert(word);
+//					words.insert(word);
+					words.push_back(word);
 					w++;
 				}
 

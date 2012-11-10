@@ -11,7 +11,6 @@
 #define WORD_H_
 
 class Word {
-	friend bool operator<(const Word& a, const Word& b);
 private:
 	std::string word;
 	std::string symbol;

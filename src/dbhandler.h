@@ -5,8 +5,9 @@
  *      Author: frost
  */
 #include <set>
-#include <mongo.h>
 #include <map>
+#include <vector>
+#include <mongo.h>
 #include "tweet.h"
 #include "word.h"
 
@@ -28,7 +29,7 @@ private:
 	std::string getMongoDBError(int status);
 	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 	long getLastLexiconUpdate();
-	std::set<Word> parseTweets(long sinceTime);
+	std::vector<Word> parseTweets(long sinceTime);
 public:
 	DBHandler();
 	virtual ~DBHandler();
