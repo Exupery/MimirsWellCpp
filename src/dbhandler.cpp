@@ -110,6 +110,13 @@ int DBHandler::addWords() {
 	for (iter=words.begin(); iter!=words.end(); iter++) {
 		Word w = *iter;
 		std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;
+		//check if word exists in db
+		//if not, create entry, otherwise append existing
+		//create/append entry for timestamp
+		//add sym to timestamp's array
+
+		//should look something like
+		//{ "word" : "foobar", timestamps: [1337448452 : ["ABC", "D", "EF"],  1347474747 : ["D", "GHI"]]}
 	}
 	return words.size();
 }
@@ -162,7 +169,6 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 					Word word(*w);
 					word.setSymbol(sym);
 					word.setTimestamp(timestamp);
-//					words.insert(word);
 					words.push_back(word);
 					w++;
 				}
