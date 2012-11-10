@@ -106,6 +106,11 @@ int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
 	std::set<Word> words = parseTweets(sinceTime);
 	//TODO: add to lexicon collection
+	std::set<Word>::const_iterator iter;
+	for (iter=words.begin(); iter!=words.end(); iter++) {
+		Word w = *iter;
+		std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;
+	}
 	return words.size();
 }
 
@@ -139,14 +144,14 @@ std::set<Word> DBHandler::parseTweets(long sinceTime) {
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "sym")) {
 					sym = bson_iterator_string(&iter);
-					std::cout << sym << std::endl;		//DELME
+//					std::cout << sym << std::endl;		//DELME
 				} else {
 					continue;
 				}
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
 					timestamp = bson_iterator_long(&iter);
-					std::cout << timestamp << std::endl;//DELME
+//					std::cout << timestamp << std::endl;//DELME
 				} else {
 					continue;
 				}
