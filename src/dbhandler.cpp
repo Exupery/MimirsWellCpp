@@ -58,6 +58,7 @@ bool DBHandler::addHistory(const std::map<long, double>& prices, const char* sym
 
 int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
+	long mostRecent = 0L;
 	std::vector<Word> words = parseTweets(sinceTime);
 	mongo db;
 	if (connect(db)) {
@@ -76,9 +77,16 @@ int DBHandler::addWords() {
 			bson_finish(&tweets);
 
 			mongo_update(&db, LEXICON, &doc, &tweets, MONGO_UPDATE_UPSERT, db.write_concern);
+
+			if (w.getTimestamp() > mostRecent) {
+				mostRecent = w.getTimestamp();
+			}
 		}
 	}
 	mongo_destroy(&db);
+	if (mostRecent > sinceTime) {
+		setLastLexiconUpdate(mostRecent);
+	}
 	return words.size();
 }
 
@@ -126,7 +134,6 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 			bson_append_long(&query, "$gt", sinceTime);
 			bson_append_finish_object(&query);
 			bson_finish(&query);
-			cursor.limit = 10;				//DELME
 			mongo_cursor_set_query(&cursor, &query);
 			while (mongo_cursor_next(&cursor) == MONGO_OK) {
 				bson_iterator iter;
@@ -200,6 +207,25 @@ long DBHandler::getLastLexiconUpdate() {
 	}
 	mongo_destroy(&db);
 	return lastUpdate;
+}
+
+void DBHandler::setLastLexiconUpdate(long lastUpdate) {
+	mongo db;
+	if (connect(db)) {
+		bson oldDoc, newDoc;
+		bson_init(&oldDoc);
+		bson_append_start_object(&oldDoc, "last_update");
+		bson_append_int(&oldDoc, "$exists", 1);
+		bson_append_finish_object(&oldDoc);
+		bson_finish(&oldDoc);
+
+		bson_init(&newDoc);
+		bson_append_long(&newDoc, "last_update", lastUpdate);
+		bson_finish(&newDoc);
+
+		mongo_update(&db, LEXICON, &oldDoc, &newDoc, MONGO_UPDATE_UPSERT, db.write_concern);
+	}
+	mongo_destroy(&db);
 }
 
 bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {

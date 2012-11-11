@@ -29,6 +29,7 @@ private:
 	std::string getMongoDBError(int status);
 	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 	long getLastLexiconUpdate();
+	void setLastLexiconUpdate(long lastUpdate);
 	std::vector<Word> parseTweets(long sinceTime);
 public:
 	DBHandler();

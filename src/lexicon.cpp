@@ -4,7 +4,6 @@
  *  Created on: Oct 14, 2012
  *      Author: frost
  */
-#include <iostream>	//DELME
 #include <locale>
 #include <string>
 #include <sstream>
@@ -51,7 +50,6 @@ std::set<std::string> Lexicon::parseTweet(const std::string& tweet) {
 	while (ss >> buffer) {
 		addWord(words, buffer);
 	}
-	std::cout << words.size() << std::endl;	//DELME
 
 	return words;
 }
