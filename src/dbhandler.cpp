@@ -80,7 +80,7 @@ int DBHandler::addWords() {
 			bson_print(&ts);	//DELME
 			mongo_update(&db, LEXICON, &doc, &ts, MONGO_UPDATE_UPSERT, db.write_concern);
 
-//			should replicat something like this
+//			should replicate something like this
 //			coll.update({"word":"alcoa"},{$push:{"timestamps":{"time":2000,"sym":"ABC"}}},{upsert:true})
 //			coll.find({timestamps:{$elemMatch:{"time":{$gt:1000}}}})
 //			coll.find({timestamps:{$elemMatch:{"sym":"KJB"}}})
