@@ -59,44 +59,29 @@ bool DBHandler::addHistory(const std::map<long, double>& prices, const char* sym
 int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
 	std::vector<Word> words = parseTweets(sinceTime);
-	//TODO: add to lexicon collection
 	mongo db;
 	if (connect(db)) {
 		std::vector<Word>::const_iterator iter;
 		for (iter=words.begin(); iter!=words.end(); iter++) {
 			Word w = *iter;
-//			std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;	??DELME
-			bson doc, timestamps, ts;
+			bson doc, timestamps;
 			bson_init(&doc);
 			bson_append_string(&doc, "word", w.getWord().c_str());
 			bson_finish(&doc);
-			bson_print(&doc);
-
-//			bson_init(&ts);
-//			bson_append_start_object(&ts, "timestamps");
-//			bson_append_long(&ts, "time", w.getTimestamp());
-//			bson_append_string(&ts, "sym", w.getSymbol().c_str());
-//			bson_append_finish_object(&ts);
-//			bson_finish(&ts);
 
 			bson_init(&timestamps);
 			bson_append_start_object(&timestamps, "$push");
-//			bson_append_long(&ts, "timestamps", w.getTimestamp());	//TODO: create sym/timestamp objects
-//			bson_append(&timestamps, &ts);
 
-//			bson_init(&ts);
 			bson_append_start_object(&timestamps, "timestamps");
 			bson_append_long(&timestamps, "time", w.getTimestamp());
 			bson_append_string(&timestamps, "sym", w.getSymbol().c_str());
 			bson_append_finish_object(&timestamps);
-//			bson_finish(&ts);
 
 			bson_append_finish_object(&timestamps);
 			bson_finish(&timestamps);
-			bson_print(&timestamps);	//DELME
+
 			mongo_update(&db, LEXICON, &doc, &timestamps, MONGO_UPDATE_UPSERT, db.write_concern);
 
-//			should replicate something like this
 //			coll.update({"word":"alcoa"},{$push:{"timestamps":{"time":2000,"sym":"ABC"}}},{upsert:true})
 //			coll.find({timestamps:{$elemMatch:{"time":{$gt:1000}}}})
 //			coll.find({timestamps:{$elemMatch:{"sym":"KJB"}}})
