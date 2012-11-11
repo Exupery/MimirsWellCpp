@@ -56,19 +56,42 @@ bool DBHandler::addHistory(const std::map<long, double>& prices, const char* sym
 	return writeDocs(histDocs, PRICE_HISTORY, i);
 }
 
-bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {
-	bool writeSuccess = false;
+int DBHandler::addWords() {
+	long sinceTime = getLastLexiconUpdate();
+	std::vector<Word> words = parseTweets(sinceTime);
+	//TODO: add to lexicon collection
 	mongo db;
 	if (connect(db)) {
-		if (mongo_insert_batch(&db, ns, docs, numDocs, db.write_concern, 0) != MONGO_OK) {
-			std::cerr << "Unable to write to MongoDB" << std::endl;
-		} else {
-			writeSuccess = true;
-		}
+		std::vector<Word>::const_iterator iter;
+		for (iter=words.begin(); iter!=words.end(); iter++) {
+			Word w = *iter;
+//			std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;	??DELME
+			bson doc, ts;
+			bson_init(&doc);
+			bson_append_string(&doc, "word", w.getWord().c_str());
+			bson_finish(&doc);
+			bson_print(&doc);
 
+			bson_init(&ts);
+			bson_append_start_object(&ts, "$push");
+//			bson_append_long(&ts, "timestamps", w.getTimestamp());	//TODO: add sym/timestamp pair
+			bson_append_finish_object(&ts);
+			bson_finish(&ts);
+			bson_print(&ts);	//DELME
+			mongo_update(&db, LEXICON, &doc, &ts, MONGO_UPDATE_UPSERT, db.write_concern);
+
+//			should look something like this maybe?
+//			{ "word" : "foobar", timestamps: [1337448452 : ["ABC", "D", "EF"],  1347474747 : ["D", "GHI"]]}
+//			coll.update({word:"foo"},{$push:{timestamps:{"108":"KJB"}}},{upsert:true})
+//			coll.find({"timestamps.108":{$exists:true}})
+		}
 	}
 	mongo_destroy(&db);
-	return writeSuccess;
+	return words.size();
+}
+
+void DBHandler::addWordIfNotPresent(const std::string& word) {	//DELME???
+	std::cout<<word<<std::endl;
 }
 
 long DBHandler::getMostRecentID(const char* symbol) {
@@ -100,25 +123,6 @@ long DBHandler::getMostRecentID(const char* symbol) {
 	}
 	mongo_destroy(&db);
 	return mostRecent;
-}
-
-int DBHandler::addWords() {
-	long sinceTime = getLastLexiconUpdate();
-	std::vector<Word> words = parseTweets(sinceTime);
-	//TODO: add to lexicon collection
-	std::vector<Word>::const_iterator iter;
-	for (iter=words.begin(); iter!=words.end(); iter++) {
-		Word w = *iter;
-		std::cout<<w.getWord()<<"\t"<<w.getSymbol()<<"\t"<<w.getTimestamp()<<std::endl;
-		//check if word exists in db
-		//if not, create entry, otherwise append existing
-		//create/append entry for timestamp
-		//add sym to timestamp's array
-
-		//should look something like
-		//{ "word" : "foobar", timestamps: [1337448452 : ["ABC", "D", "EF"],  1347474747 : ["D", "GHI"]]}
-	}
-	return words.size();
 }
 
 std::vector<Word> DBHandler::parseTweets(long sinceTime) {
@@ -205,6 +209,21 @@ long DBHandler::getLastLexiconUpdate() {
 	}
 	mongo_destroy(&db);
 	return lastUpdate;
+}
+
+bool DBHandler::writeDocs(const bson** docs, const char* ns, int numDocs) {
+	bool writeSuccess = false;
+	mongo db;
+	if (connect(db)) {
+		if (mongo_insert_batch(&db, ns, docs, numDocs, db.write_concern, 0) != MONGO_OK) {
+			std::cerr << "Unable to write to MongoDB" << std::endl;
+		} else {
+			writeSuccess = true;
+		}
+
+	}
+	mongo_destroy(&db);
+	return writeSuccess;
 }
 
 bool DBHandler::connect(mongo& db) {
