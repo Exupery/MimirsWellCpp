@@ -74,16 +74,16 @@ int DBHandler::addWords() {
 
 			bson_init(&ts);
 			bson_append_start_object(&ts, "$push");
-//			bson_append_long(&ts, "timestamps", w.getTimestamp());	//TODO: add sym/timestamp pair
+//			bson_append_long(&ts, "timestamps", w.getTimestamp());	//TODO: create sym/timestamp objects
 			bson_append_finish_object(&ts);
 			bson_finish(&ts);
 			bson_print(&ts);	//DELME
 			mongo_update(&db, LEXICON, &doc, &ts, MONGO_UPDATE_UPSERT, db.write_concern);
 
-//			should look something like this maybe?
-//			{ "word" : "foobar", timestamps: [1337448452 : ["ABC", "D", "EF"],  1347474747 : ["D", "GHI"]]}
-//			coll.update({word:"foo"},{$push:{timestamps:{"108":"KJB"}}},{upsert:true})
-//			coll.find({"timestamps.108":{$exists:true}})
+//			should replicat something like this
+//			coll.update({"word":"alcoa"},{$push:{"timestamps":{"time":2000,"sym":"ABC"}}},{upsert:true})
+//			coll.find({timestamps:{$elemMatch:{"time":{$gt:1000}}}})
+//			coll.find({timestamps:{$elemMatch:{"sym":"KJB"}}})
 		}
 	}
 	mongo_destroy(&db);
