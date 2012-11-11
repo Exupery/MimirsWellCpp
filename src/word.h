@@ -15,6 +15,7 @@ private:
 	std::string word;
 	std::string symbol;
 	long timestamp;
+	long tweetID;
 public:
 	Word(std::string word);
 	virtual ~Word();
@@ -23,6 +24,8 @@ public:
 	void setSymbol(std::string symbol);
 	long getTimestamp();
 	void setTimestamp(long timestamp);
+	long getTweetID();
+	void setTweetID(long tweetID);
 };
 
 #endif /* WORD_H_ */

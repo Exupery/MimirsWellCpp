@@ -75,6 +75,7 @@ int DBHandler::addWords() {
 			bson_append_start_object(&timestamps, "timestamps");
 			bson_append_long(&timestamps, "time", w.getTimestamp());
 			bson_append_string(&timestamps, "sym", w.getSymbol().c_str());
+			bson_append_long(&timestamps, "tweet_id", w.getTweetID());
 			bson_append_finish_object(&timestamps);
 
 			bson_append_finish_object(&timestamps);
