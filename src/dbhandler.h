@@ -30,7 +30,6 @@ private:
 	bool writeDocs(const bson** docs, const char* ns, int numDocs);
 	long getLastLexiconUpdate();
 	std::vector<Word> parseTweets(long sinceTime);
-	void addWordIfNotPresent(const std::string& word);
 public:
 	DBHandler();
 	virtual ~DBHandler();

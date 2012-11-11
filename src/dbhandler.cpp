@@ -92,10 +92,6 @@ int DBHandler::addWords() {
 	return words.size();
 }
 
-void DBHandler::addWordIfNotPresent(const std::string& word) {	//DELME???
-	std::cout<<word<<std::endl;
-}
-
 long DBHandler::getMostRecentID(const char* symbol) {
 	long mostRecent = 0;
 	mongo db;
@@ -146,10 +142,9 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 				bson_iterator iter;
 				std::set<std::string> wordsInTweet;
 				std::string sym;
-				long timestamp;
+				long timestamp, tweetID;
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "text")) {
-//					std::cout << bson_iterator_string(&iter) << std::endl;	//DELME
 					wordsInTweet = lex.parseTweet(bson_iterator_string(&iter));
 				} else {
 					continue;
@@ -157,24 +152,28 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "sym")) {
 					sym = bson_iterator_string(&iter);
-//					std::cout << sym << std::endl;		//DELME
 				} else {
 					continue;
 				}
 
 				if (bson_find(&iter, mongo_cursor_bson(&cursor), "posted_at")) {
 					timestamp = bson_iterator_long(&iter);
-//					std::cout << timestamp << std::endl;//DELME
+				} else {
+					continue;
+				}
+
+				if (bson_find(&iter, mongo_cursor_bson(&cursor), "id")) {
+					tweetID = bson_iterator_long(&iter);
 				} else {
 					continue;
 				}
 
 				std::set<std::string>::const_iterator w = wordsInTweet.begin();
 				while (w != wordsInTweet.end()) {
-					std::cout << *w << std::endl;		//DELME
 					Word word(*w);
 					word.setSymbol(sym);
 					word.setTimestamp(timestamp);
+					word.setTweetID(tweetID);
 					words.push_back(word);
 					w++;
 				}
