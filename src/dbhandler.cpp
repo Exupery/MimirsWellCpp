@@ -64,28 +64,18 @@ int DBHandler::addWords() {
 		std::vector<Word>::const_iterator iter;
 		for (iter=words.begin(); iter!=words.end(); iter++) {
 			Word w = *iter;
-			bson doc, timestamps;
+			bson doc, tweets;
 			bson_init(&doc);
 			bson_append_string(&doc, "word", w.getWord().c_str());
 			bson_finish(&doc);
 
-			bson_init(&timestamps);
-			bson_append_start_object(&timestamps, "$push");
+			bson_init(&tweets);
+			bson_append_start_object(&tweets, "$addToSet");
+			bson_append_long(&tweets, "tweets", w.getTweetID());
+			bson_append_finish_object(&tweets);
+			bson_finish(&tweets);
 
-			bson_append_start_object(&timestamps, "timestamps");
-			bson_append_long(&timestamps, "time", w.getTimestamp());
-			bson_append_string(&timestamps, "sym", w.getSymbol().c_str());
-			bson_append_long(&timestamps, "tweet_id", w.getTweetID());
-			bson_append_finish_object(&timestamps);
-
-			bson_append_finish_object(&timestamps);
-			bson_finish(&timestamps);
-
-			mongo_update(&db, LEXICON, &doc, &timestamps, MONGO_UPDATE_UPSERT, db.write_concern);
-
-//			coll.update({"word":"alcoa"},{$push:{"timestamps":{"time":2000,"sym":"ABC"}}},{upsert:true})
-//			coll.find({timestamps:{$elemMatch:{"time":{$gt:1000}}}})
-//			coll.find({timestamps:{$elemMatch:{"sym":"KJB"}}})
+			mongo_update(&db, LEXICON, &doc, &tweets, MONGO_UPDATE_UPSERT, db.write_concern);
 		}
 	}
 	mongo_destroy(&db);
