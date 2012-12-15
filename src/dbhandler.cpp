@@ -59,10 +59,13 @@ bool DBHandler::addHistory(const std::map<long, double>& prices, const char* sym
 int DBHandler::addWords() {
 	long sinceTime = getLastLexiconUpdate();
 	long mostRecent = 0L;
+	time_t start = time(0);	//DELME
 	std::vector<Word> words = parseTweets(sinceTime);
+	std::cout << "time to parse tweets: " << time(0)-start << "s" << std::endl;	//DELME
 	mongo db;
 	if (connect(db)) {
 		std::vector<Word>::const_iterator iter;
+		start = time(0);	//DELME
 		for (iter=words.begin(); iter!=words.end(); iter++) {
 			Word w = *iter;
 			bson doc, tweets;
@@ -82,6 +85,7 @@ int DBHandler::addWords() {
 				mostRecent = w.getTimestamp();
 			}
 		}
+		std::cout << "time write words to db: " << time(0)-start << "s" << std::endl;	//DELME
 	}
 	mongo_destroy(&db);
 	if (mostRecent > sinceTime) {
@@ -134,6 +138,7 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 			bson_append_long(&query, "$gt", sinceTime);
 			bson_append_finish_object(&query);
 			bson_finish(&query);
+			cursor.limit = 20;	//DELME
 			mongo_cursor_set_query(&cursor, &query);
 			while (mongo_cursor_next(&cursor) == MONGO_OK) {
 				bson_iterator iter;
@@ -206,6 +211,7 @@ long DBHandler::getLastLexiconUpdate() {
 		mongo_cursor_destroy(&cursor);
 	}
 	mongo_destroy(&db);
+	std::cout << "last lexicon update: " << lastUpdate << std::endl;	//DELME
 	return lastUpdate;
 }
 
