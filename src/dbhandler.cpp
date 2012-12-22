@@ -138,7 +138,7 @@ std::vector<Word> DBHandler::parseTweets(long sinceTime) {
 			bson_append_long(&query, "$gt", sinceTime);
 			bson_append_finish_object(&query);
 			bson_finish(&query);
-			cursor.limit = 20;	//DELME
+			cursor.limit = 2000;	//DELME
 			mongo_cursor_set_query(&cursor, &query);
 			while (mongo_cursor_next(&cursor) == MONGO_OK) {
 				bson_iterator iter;
